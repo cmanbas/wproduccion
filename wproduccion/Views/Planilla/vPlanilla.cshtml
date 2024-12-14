@@ -1,0 +1,190 @@
+﻿ 
+
+
+@{
+    ViewBag.Title = "CargaDatosPlanilla";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Carga Datos Planilla</h2>
+
+<div id="jqxGrid"></div>
+
+
+link href="~/Css/TablasComercial.css" rel="stylesheet" />
+<link href="~/Css/datatablebuttons.css" rel="stylesheet" />
+@section Scripts
+    {
+    <link href="~/Css/jqx.material-purple.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxbuttons.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.filter.js"></script>
+
+    <script src="~/jqwidgets/jqxeditor.js"></script>
+    <script src="~/jqwidgets/jqxgrid.edit.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxexport.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.aggregates.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdraw.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/globalization/globalize.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jslocalization.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/Cierres.js"></script>
+
+    <script type="text/javascript">
+
+     
+
+        $(document).ready(function () {
+            // Configuración del jqxGrid
+            $("#jqxGrid").jqxGrid({
+                width: '100%',
+                source: new $.jqx.dataAdapter({
+                    datatype: "json",
+                    datafields: [
+                        { name: 'CODPROD', type: 'string' },
+                        { name: 'NOMPROD', type: 'string' },
+                        { name: 'UBICACION', type: 'number' },
+                        { name: 'tipo', type: 'string' },
+                        { name: 'v202301', type: 'number' },
+                        { name: 'v202302', type: 'number' },
+                        { name: 'v202303', type: 'number' },
+                        { name: 'v202304', type: 'number' },
+                        { name: 'v202305', type: 'number' },
+                        { name: 'v202306', type: 'number' },
+                        { name: 'v202307', type: 'number' },
+                        { name: 'v202308', type: 'number' },
+                        { name: 'v202309', type: 'number' },
+                        { name: 'v202310', type: 'number' },
+                        { name: 'v202311', type: 'number' },
+                        { name: 'v202312', type: 'number' },
+                        { name: 'v202401', type: 'number' },
+                        { name: 'v202402', type: 'number' },
+                        { name: 'v202403', type: 'number' },
+                        { name: 'v202404', type: 'number' },
+                        { name: 'v202405', type: 'number' },
+                        { name: 'v202406', type: 'number' },
+                        { name: 'v202407', type: 'number' },
+                        { name: 'v202408', type: 'number' },
+                        { name: 'v202409', type: 'number' },
+                        { name: 'v202410', type: 'number' },
+                        { name: 'v202411', type: 'number' },
+                        { name: 'v202412', type: 'number' },
+                        { name: 'v202501', type: 'number' },
+                        { name: 'v202502', type: 'number' },
+                        { name: 'v202503', type: 'number' },
+                        { name: 'v202504', type: 'number' },
+                        { name: 'v202505', type: 'number' },
+                        { name: 'v202506', type: 'number' },
+                        { name: 'v202507', type: 'number' },
+                        { name: 'v202508', type: 'number' },
+                        { name: 'v202509', type: 'number' },
+                        { name: 'v202510', type: 'number' },
+                        { name: 'v202511', type: 'number' },
+                        { name: 'v202512', type: 'number' }
+                    ],
+                    url: '/Planilla/ObtenerDatosPlanillaJson', // URL del método
+                    async: false,
+                }),
+                columns: [
+                    { text: 'Código Producto', datafield: 'CODPROD', width: '60', pinned: true },
+                    { text: 'Nombre Producto', datafield: 'NOMPROD', width: '30%',pinned: true },
+                    { text: 'Ubicación', datafield: 'UBICACION', width: '10%',hidden:true },
+                    { text: 'Tipo', datafield: 'tipo', width: '10%',pinned:true },
+                    { text: '2023-01', datafield: 'v202301', width: '100', cellsformat: 'd0' },
+                    { text: '2023-02', datafield: 'v202302', width: '100', cellsformat: 'd0' },
+                    { text: '2023-03', datafield: 'v202303', width: '100', cellsformat: 'd0' },
+                    { text: '2023-04', datafield: 'v202304', width: '100', cellsformat: 'd0' },
+                    { text: '2023-05', datafield: 'v202305', width: '100', cellsformat: 'd0' },
+                    { text: '2023-06', datafield: 'v202306', width: '100', cellsformat: 'd0' },
+                    { text: '2023-07', datafield: 'v202307', width: '100', cellsformat: 'd0' },
+                    { text: '2023-08', datafield: 'v202308', width: '100', cellsformat: 'd0' },
+                    { text: '2023-09', datafield: 'v202309', width: '100', cellsformat: 'd0' },
+                    { text: '2023-10', datafield: 'v202310', width: '100', cellsformat: 'd0' },
+                    { text: '2023-11', datafield: 'v202311', width: '100', cellsformat: 'd0' },
+                    { text: '2023-12', datafield: 'v202312', width: '100', cellsformat: 'd0' },
+                    { text: '2024-01', datafield: 'v202401', width: '100', cellsformat: 'd0' },
+                    { text: '2024-02', datafield: 'v202402', width: '100', cellsformat: 'd0' },
+                    { text: '2024-03', datafield: 'v202403', width: '100', cellsformat: 'd0' },
+                    { text: '2024-04', datafield: 'v202404', width: '100', cellsformat: 'd0' },
+                    { text: '2024-05', datafield: 'v202405', width: '100', cellsformat: 'd0' },
+                    { text: '2024-06', datafield: 'v202406', width: '100', cellsformat: 'd0' },
+                    { text: '2024-07', datafield: 'v202407', width: '100', cellsformat: 'd0' },
+                    { text: '2024-08', datafield: 'v202408', width: '100', cellsformat: 'd0' },
+                    { text: '2024-09', datafield: 'v202409', width: '100', cellsformat: 'd0' },
+                    { text: '2024-10', datafield: 'v202410', width: '100', cellsformat: 'd0' },
+                    { text: '2024-11', datafield: 'v202411', width: '100', cellsformat: 'd0' },
+                    { text: '2024-12', datafield: 'v202412', width: '100', cellsformat: 'd0' },
+                    { text: '2025-01', datafield: 'v202501', width: '100', cellsformat: 'd0' },
+                    { text: '2025-02', datafield: 'v202502', width: '100', cellsformat: 'd0' },
+                    { text: '2025-03', datafield: 'v202503', width: '100', cellsformat: 'd0' },
+                    { text: '2025-04', datafield: 'v202504', width: '100', cellsformat: 'd0' },
+                    { text: '2025-05', datafield: 'v202505', width: '100', cellsformat: 'd0' },
+                    { text: '2025-06', datafield: 'v202506', width: '100', cellsformat: 'd0' },
+                    { text: '2025-07', datafield: 'v202507', width: '100', cellsformat: 'd0' },
+                    { text: '2025-08', datafield: 'v202508', width: '100', cellsformat: 'd0' },
+                    { text: '2025-09', datafield: 'v202509', width: '100', cellsformat: 'd0' },
+                    { text: '2025-10', datafield: 'v202510', width: '100', cellsformat: 'd0' },
+                    { text: '2025-11', datafield: 'v202511', width: '100', cellsformat: 'd0' },
+                    { text: '2025-12', datafield: 'v202512', width: '100', cellsformat: 'd0' }
+                ],
+
+                 theme: 'artic',
+                pageable: true,
+                showfilterrow: true,
+                filterable: true,
+                columnsresize: true,
+                showaggregates: true,
+                showtoolbar: true,
+                showstatusbar: true,
+                statusbarheight: 30,
+                pagesize: 100,
+                sortable: true,
+               filterable: true, ready: function () {
+                //    $("#jqxGrid").jqxGrid('localizestrings', localizationobj);
+
+                    $("#jqxGrid .jqx-widget-content").css("font-size", "11px");
+                    $("#jqxGrid  .jqx-grid-cell").css("font-size", "11px");
+                },
+            });
+
+            // Llamada AJAX para obtener los datos
+            $.ajax({
+                url: '/Planilla/ObtenerDatosPlanillaJson',
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (data) {
+                    $("#jqxGrid").jqxGrid('source')._source.localdata = data;
+                    $("#jqxGrid").jqxGrid('updatebounddata');
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error al cargar los datos: " + error);
+                }
+            });
+        });
+    </script>
+} 

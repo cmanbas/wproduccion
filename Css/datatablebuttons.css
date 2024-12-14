@@ -1,0 +1,344 @@
+﻿.botondatable {
+    -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
+    background: -moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+    background: -webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+    background: -o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+    background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+    background-color: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-family: Arial;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 20px;
+    margin-right: 05px;
+    margin-left: 7px;
+    margin-bottom: 07px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+
+    .botondatable:hover {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff));
+        background: -moz-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+        background: -webkit-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+        background: -o-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+        color: black;
+        background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        background-color: #f6f6f6;
+    }
+
+    .botondatable:active {
+        position: relative;
+        top: 1px;
+    }
+.imaEditusr {
+    background: url('../images/editarusr.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaAddusr {
+    background: url('../images/user_add.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaDelusr {
+    background: url('../images/eliminarusr.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaMonusr {
+    background: url('../images/moneda.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaticketSI {
+    background: url('../images/tick.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaticketNO {
+    background: url('../images/tickNO.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaticketBL {
+    background: url('../images/delete.ico') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaRefresca {
+    background: url('../images/refresca.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaEditdoc {
+    background: url('/images/edidoc.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaEditddoc {
+    background: url('/images/editddoc.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaAdddoc {
+    background: url('../images/user_add.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaClose {
+    background: url('../images/Terminate.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+
+.imaDeldoc {
+    background: url('/Images/deldoc.png') no-repeat center; height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaDelitem {
+    background: url('/Images/delete.ico') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaUpditem {
+    background: url('/Images/modify.ico') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaOpenitem {
+    background: url('/Images/itemopen.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaCloseitem {
+    background: url('/Images/terminate.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaSendMail {
+    background: url('/Images/sendmail.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+.imaMail {
+    background: url('/Images/mail.png') no-repeat center;
+    height: 20px;
+    width: 20px;
+    border-spacing: 2px;
+    border: 2px solid transparent;
+    background-size: 100% 100%;
+}
+
+.textocentro {
+    text-align: center;
+    width: 12px;
+    font-size: 12px;
+}
+
+.textocentrob {
+    text-align: center;
+    width: 12px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.textocentro2 {
+    text-align: center;
+    width: 100px;
+}
+
+.textoleft {
+    text-align: left;
+    width: 12px;
+    font-size: 12px;
+}
+
+.textobold {
+    font: bold;
+    color: black;
+}
+
+
+.textobolw {
+    color: white;
+}
+.botondatableADD {
+    -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
+    background: -moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+    background: -webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+    background: -o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+    background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+    background-color: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid indigo;
+    display: inline-block;
+    cursor: pointer;
+    color: black;
+    font-family: Calibri;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 20px;
+    margin-right: 05px;
+    margin-bottom: 07px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+
+    .botondatableADD:hover {
+        color: white;
+        background: darkmagenta;
+        background-color: darkmagenta;
+    }
+
+    .botondatableADD:active {
+        position: relative;
+        top: 1px;
+    }
+
+
+
+
+.botondatableCAN {
+    -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
+    background: -moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+    background: -webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+    background: -o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+    background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+    background-color: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid indigo;
+    display: inline-block;
+    cursor: pointer;
+    color: black;
+    font-family: Calibri;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 20px;
+    margin-right: 05px;
+    margin-bottom: 07px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+
+    .botondatableCAN:hover {
+        color: white;
+        background: darkred;
+        background-color: darkred;
+    }
+
+    .botondatableCAN:active {
+        position: relative;
+        top: 1px;
+    }
+
+
+thead select {
+    width: 100%;
+}
+
+table.dataTable tbody tr.selected {
+    color: white !important;
+    background-color: darkmagenta !important;
+    /* Not working */
+}
+
+.dataTables_filter {
+    float: left !important;
+}
+
+
+    .dataTables_filter input {
+        width: 200px;
+        height: 28px;
+        background: #fcfcfc;
+        border: 1px solid #aaa;
+        border-radius: 2px;
+        box-shadow: 0 0 3px #ccc, 0 10px 10px #ebebeb inset;
+        text-indent: 5px;
+    }
+
+    .dataTables_filter .fa-search {
+        position: absolute;
+        top: 10px;
+        left: auto;
+        right: 10px;
+    }
+
+.dataTables_scrollHead {
+    overflow: visible !important;
+    width: 100%;
+}

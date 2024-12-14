@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "Mantención Periodos de Eficacia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="grid"></div>
+
+
+<style>
+    /* Estilos optimizados */
+    input[type=text], input[type=number], select {
+        font-size: 13px;
+        padding: 5px 10px;
+        width: 80%;
+        outline: none;
+        background: #FFFFFF;
+        color: #000000;
+        border: 1px solid #C4D1EB;
+        border-radius: 5px;
+        box-shadow: 3px 3px 2px 0px #E2E2E2;
+        transition: .3s ease;
+    }
+
+        select:focus {
+            border-color: #7a98d4;
+            box-shadow: 0 0 0 0.2rem rgba(122, 152, 212, 0.25);
+        }
+
+        select:disabled {
+            background-color: #f5f5f5;
+            color: #aaa;
+            cursor: not-allowed;
+        }
+
+    .jqx-grid-cell {
+        color: black;
+        font-family: Calibri !important;
+        border: 0.5px solid purple !important;
+    }
+</style>
+<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>
+
+<link href="~/Css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+<link href="~/Css/TablasComercial.css" rel="stylesheet" />
+<link href="~/Css/datatablebuttons.css" rel="stylesheet" />
+@section Scripts
+{
+    <link href="~/Css/jqx.base.css" rel="stylesheet" />
+    <link href="~/Css/jqx.material-purple.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+    <!--<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>-->
+
+    <script type="text/javascript" src="~/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxbuttons.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.filter.js"></script>
+
+    <script src="~/jqwidgets/jqxeditor.js"></script>
+    <script src="~/jqwidgets/jqxgrid.edit.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxexport.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.aggregates.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdraw.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/globalization/globalize.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jslocalization.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/Cierres.js"></script>
+    <script type="text/javascript" src="~/Scripts/localizationCL.js"></script>
+
+    <script type="text/javascript">
+   $(document).ready(function () {
+            var productsData = @Html.Raw(Json.Encode(Model)); // Asume que los datos se pasan desde el controlador
+
+            var data = [];
+            productsData.forEach(function(product) {
+                var baseRow = {
+                    id: product.productoid,
+                    nombre: product.nombre,
+                    codigoproducto: product.codigoproducto,
+                    codigopedido: product.codigopedido,
+                    periodoeficacia: product.periodoeficacia,
+                    tamanolote: product.tamanolote,
+                    unidadlote: product.unidadlote,
+                    pesolote: product.pesolote,
+                    tipoempaque: product.tipoempaque,
+                    unidadesporempaque: product.unidadesporempaque
+                };
+
+                var rows = [
+                    {...baseRow, tipo: "STOCK INI MES"},
+                    {...baseRow, tipo: "PRODUCCION*" + product.tipoproduccion},
+                    {...baseRow, tipo: "ENTREGAS"},
+                    {...baseRow, tipo: "OTRAS SALIDAS"},
+                    {...baseRow, tipo: "CUARENTENA"},
+                    {...baseRow, tipo: "VENTAS"},
+                    {...baseRow, tipo: "VTAS REALES"},
+                    {...baseRow, tipo: "DIAS STOCK"}
+                ];
+
+                var monthKey = product.agno + '-' + (product.mes < 10 ? '0' + product.mes : product.mes);
+                rows[0][monthKey] = product.stockinimes;
+                rows[1][monthKey] = product.produccion;
+                rows[2][monthKey] = product.entregas;
+                rows[3][monthKey] = product.otrassalidas;
+                rows[4][monthKey] = product.cuarentena;
+                rows[5][monthKey] = product.pptoventas;
+                rows[6][monthKey] = product.vtasreales;
+                rows[7][monthKey] = product.diasstock;
+
+                data = data.concat(rows);
+                data.push({}); // Fila vacía entre productos
+            });
+
+            var source = {
+                localdata: data,
+                datatype: "array"
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+
+            var mesesColumns = [];
+            for (var year = 2023; year <= 2024; year++) {
+                for (var month = 1; month <= 12; month++) {
+                    var monthKey = year + '-' + (month < 10 ? '0' + month : month);
+                    mesesColumns.push({
+                        text: monthKey,
+                        datafield: monthKey,
+                        width: 80,
+                        cellsalign: 'right',
+                        cellsformat: 'd2',
+                        cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                            if (value === null || value === undefined || value === '') {
+                                return '<span style="margin: 4px; float: right;">-</span>';
+                            }
+                            var numValue = parseFloat(value);
+                            if (isNaN(numValue)) {
+                                return '<span style="margin: 4px; float: right;">' + value + '</span>';
+                            }
+                            return '<span style="margin: 4px; float: right;">' + numValue.toFixed(2) + '</span>';
+                        }
+                    });
+                }
+            }
+
+            $("#grid").jqxGrid({
+                width: '100%',
+                height: 600,
+                source: dataAdapter,
+                columnsresize: true,
+                altrows: true,
+                columns: [
+                    { text: 'ID', datafield: 'id', width: 70 },
+                    { text: 'Nombre', datafield: 'nombre', width: 200 },
+                    { text: 'Código Producto', datafield: 'codigoproducto', width: 120 },
+ 
+                    { text: 'Tipo', datafield: 'tipo', width: 150 },
+                    ...mesesColumns
+                ]
+            });
+        });
+    </script>
+    }

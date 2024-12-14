@@ -1,0 +1,3 @@
+delete  FROM  API_VENTAS;
+DELETE FROM  API_movimiento;
+DELETE FROM  API_BOLETA;  

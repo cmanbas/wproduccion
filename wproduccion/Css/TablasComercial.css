@@ -1,0 +1,63 @@
+﻿@@media all and (max-width: 62em) {
+    .my-breakpoint .ui-block-a, .my-breakpoint .ui-block-b {
+        width: 100%;
+        float: none;
+    }
+}
+
+.formbco {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%); /* IE 9 */
+    -webkit-transform: translate(-50%, -50%); /* Chrome, Safari, Opera */
+}
+
+#dataTable .jqx-grid-cell-pinned, #dataTable .jqx-grid-column-header {
+    background-color: lightyellow !important;
+}
+
+.jqx-grid-column-header > div > div > span[style] {
+    white-space: normal;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.jqx-grid-cell {
+    font-size: 12px; /* Ajusta el tamaño de la fuente según tus necesidades */
+}
+
+.jqx-grid-column-header > div {
+    white-space: normal;
+    color: white;
+    background-color: indigo;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+input[type=text] {
+    font-size: 13px;
+    padding: 5px 10px;
+    width: 80%;
+    outline: none;
+    background: #FFFFFF;
+    color: #000000;
+    border: 1px solid #C4D1EB;
+    border-radius: 5px;
+    box-shadow: 3px 3px 2px 0px #E2E2E2;
+    transition: .3s ease;
+}
+
+input[type=number] {
+    font-size: 12px;
+    padding: 5px 10px 5px;
+    width: 80%;
+    outline: none;
+    background: #FFFFFF;
+    color: #000000;
+    border: 1px solid #C4D1EB;
+    border-radius: 5px;
+    box-shadow: 3px 3px 2px 0px #E2E2E2;
+    transition: .3s ease;
+}

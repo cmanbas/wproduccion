@@ -1,0 +1,319 @@
+﻿@{
+    ViewBag.Title = "Mantención Periodos de Eficacia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<input class="input" type="text" style="background-color: whitesmoke; font-size: 12px; color: red; font-weight:bold; visibility: hidden;" id="mensajeerror" disabled>
+
+<div style="font-family: Calibri; font-size: 12px; display: grid; place-items: center;">
+    <h5 id="tituloidx">PERIODOS DE EFICACIA</h5>
+    <div id="grid" style="font-size:11px; font-family: Calibri;"></div>
+</div>
+
+<div id="modalWindow" hidden class="center-div" style="background-color: whitesmoke; font-size: 16px !important; box-shadow: inset 3px 1px 0px 3px whitesmoke; border-radius: 22px; border: 4px solid #dcdcdc; font-family: Calibri !important; width: 500px;">
+    <div><h5 id="tituloid">MANTENCIÓN PERIODO DE EFICACIA</h5></div>
+    <div style="text-align: center; vertical-align: middle; background-color: whitesmoke !important; font-size: 12px !important; font-family: Calibri !important;">
+        <form>
+            <table style="font-size: 12px !important; width: 410px; border-collapse: separate; border-spacing: 10PX;">
+                <tr>
+                    <td align="right"><label for="codinternope" class="form-label">IdInterno:</label></td>
+                    <td><input type="number" class="form-control" id="codinternope" name="codinternope" disabled></td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="cantmeses" class="form-label">Cantidad de Meses:</label></td>
+                    <td align="left"><input class="Inputlogin" id="cantmeses" name="cantmeses" type="number" required style="width:240px"></td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="descripcion" class="form-label">Descripción:</label></td>
+                    <td align="left"><input class="Inputlogin" id="descripcion" name="descripcion" maxlength="50" required style="width:240px" type="text"></td>
+                </tr>
+            </table>
+        </form>
+        <div class="modal-footer">
+            <button class="botondatableCAN" id="cancel" type="button" style="font-size:12px; font-family:Calibri;">Cancelar</button>
+            <input type="button" style="font-size:12px; font-family:Calibri;" id="ok" value="Actualizar Periodo" class="botondatableADD" />
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilos optimizados */
+    input[type=text], input[type=number], select {
+        font-size: 13px;
+        padding: 5px 10px;
+        width: 80%;
+        outline: none;
+        background: #FFFFFF;
+        color: #000000;
+        border: 1px solid #C4D1EB;
+        border-radius: 5px;
+        box-shadow: 3px 3px 2px 0px #E2E2E2;
+        transition: .3s ease;
+    }
+
+        select:focus {
+            border-color: #7a98d4;
+            box-shadow: 0 0 0 0.2rem rgba(122, 152, 212, 0.25);
+        }
+
+        select:disabled {
+            background-color: #f5f5f5;
+            color: #aaa;
+            cursor: not-allowed;
+        }
+
+    .jqx-grid-cell {
+        color: black;
+        font-family: Calibri !important;
+        border: 0.5px solid purple !important;
+    }
+</style>
+<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>
+
+<link href="~/Css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+<link href="~/Css/TablasComercial.css" rel="stylesheet" />
+<link href="~/Css/datatablebuttons.css" rel="stylesheet" />
+@section Scripts
+{
+    <link href="~/Css/jqx.base.css" rel="stylesheet" />
+    <link href="~/Css/jqx.material-purple.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+    <!--<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>-->
+
+    <script type="text/javascript" src="~/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxbuttons.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.filter.js"></script>
+
+    <script src="~/jqwidgets/jqxeditor.js"></script>
+    <script src="~/jqwidgets/jqxgrid.edit.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxexport.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.aggregates.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdraw.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/globalization/globalize.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jslocalization.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/Cierres.js"></script>
+    <script type="text/javascript" src="~/Scripts/localizationCL.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var indicePeriodo = -1;
+            var evento = "";
+            var IDPeriodo = 0;
+
+            var source = {
+                datatype: "json",
+                datafields: [
+                    { name: 'codinternope', type: 'number' },
+                    { name: 'cantmeses', type: 'number' },
+                    { name: 'descripcion', type: 'string' }
+                ],
+                url: '/PeriodoEficacia/GetAllPeriodosEficacia',
+                crud: {
+                    create: '/PeriodoEficacia/Create',
+                    update: '/PeriodoEficacia/Update',
+                    delete: '/PeriodoEficacia/Delete'
+                }
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+
+            $("#grid").jqxGrid({
+                width: 850,
+                height: 330,
+                source: dataAdapter,
+                sortable: true,
+                filterable: true,
+                pageable: true,
+                theme: 'office',
+                columnsresize: true,
+                selectionmode: 'singlerow',
+                showaggregates: true,
+                showtoolbar: true,
+                showstatusbar: false,
+                statusbarheight: 5,
+                pagermode: 'simple',
+                columns: [
+                    { text: 'ID', datafield: 'codinternope', width: 50, cellsalign: "center", align: "center" },
+                    { text: 'CANTIDAD MESES', datafield: 'cantmeses', width: 150, align: "center" },
+                    { text: 'DESCRIPCIÓN', datafield: 'descripcion', width: 300, align: "center" }
+                ],
+                rendertoolbar: function (toolbar) {
+                    var container = $("<div style='margin: 5px; font-size:10px;'></div>");
+                    toolbar.append(container);
+
+                    container.append('<input style="height:22px;margin-left: 2px; font-size:10px;" id="addrowbutton" type="button" value="Agregar" class="botondatableADD" />');
+                    container.append('<input style="height:22px;margin-left: 2px; font-size:10px;" id="deleterowbutton" type="button" class="botondatableADD" value="Eliminar" />');
+                    container.append('<input style="height:22px;margin-left: 2px; font-size:10px;" id="updaterowbutton" type="button" class="botondatableADD" value="Editar" />');
+                    container.append('<input style="margin-left: 2px; font-size:10px;width:130px;" id="exportarbutton" type="button" class="botondatableADD" value="Exportar Excel" />');
+
+                    $("#addrowbutton, #deleterowbutton, #updaterowbutton, #exportarbutton").jqxButton();
+
+                    $("#addrowbutton").click(function () {
+                        evento = "ADD";
+                        $("#tituloid").text("Agregar Periodo de Eficacia");
+                        $("#ok").val("Agregar");
+                        clearForm();
+                        generatewindow();
+                        $('#modalWindow').jqxWindow('open');
+                    });
+
+                    $("#deleterowbutton").click(function () {
+                        if (indicePeriodo === -1) {
+                            showMessage('Advertencia', 'Debe seleccionar un registro', 'warning');
+                            return;
+                        }
+                        evento = "DEL";
+                        $("#tituloid").text("Eliminar Periodo de Eficacia");
+                        $("#ok").val("Eliminar");
+                        generatewindow();
+                        $('#modalWindow').jqxWindow('open');
+                    });
+
+                    $("#updaterowbutton").click(function () {
+                        if (indicePeriodo === -1) {
+                            showMessage('Advertencia', 'Debe seleccionar un registro', 'warning');
+                            return;
+                        }
+                        evento = "UPD";
+                        $("#tituloid").text("Modificar Periodo de Eficacia");
+                        $("#ok").val("Modificar");
+                        generatewindow();
+                        $('#modalWindow').jqxWindow('open');
+                    });
+
+                    $("#exportarbutton").click(function () {
+                        $("#grid").jqxGrid('exportdata', 'xlsx', "PeriodosEficacia");
+                    });
+                }
+            });
+
+            function showMessage(title, text, icon) {
+                Swal.fire({
+                    title: title,
+                    text: text,
+                    icon: icon,
+                    confirmButtonText: 'OK'
+                });
+            }
+
+            function performCrudOperation(operation, data) {
+                $.ajax({
+                    cache: false,
+                    dataType: 'json',
+                    url: source.crud[operation],
+                    data: data,
+                    type: "POST",
+                    success: function (response) {
+                        if (response.success) {
+                            showMessage('Aviso!', "Operación realizada correctamente", 'success');
+                            $('#grid').jqxGrid('updatebounddata');
+                            $('#modalWindow').jqxWindow('close');
+                        } else {
+                            showMessage('Advertencia!', response.message || "Error en la operación", 'warning');
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showMessage('Error!', "Error en la operación: " + errorThrown, 'error');
+                    }
+                });
+            }
+
+            $("#grid").on('rowselect', function (event) {
+                var data = event.args.row;
+                indicePeriodo = event.args.rowindex;
+                IDPeriodo = data.codinternope;
+                $("#codinternope").val(data.codinternope);
+                $("#cantmeses").val(data.cantmeses);
+                $("#descripcion").val(data.descripcion);
+            });
+
+            $("#ok").click(function () {
+                if (validateFormFields()) {
+                    var rowData = {
+                        codinternope: $("#codinternope").val(),
+                        cantmeses: $("#cantmeses").val(),
+                        descripcion: $("#descripcion").val()
+                    };
+
+                    switch (evento) {
+                        case "UPD":
+                            performCrudOperation('update', rowData);
+                            break;
+                        case "ADD":
+                            performCrudOperation('create', rowData);
+                            break;
+                        case "DEL":
+                            performCrudOperation('delete', { codinternope: IDPeriodo });
+                            break;
+                    }
+                } else {
+                    showMessage('Advertencia', "Por favor, complete todos los campos obligatorios.", 'warning');
+                }
+            });
+
+            function validateFormFields() {
+                var isValid = true;
+                $('#modalWindow input[required]').each(function () {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                        $(this).css('border-color', 'red');
+                    } else {
+                        $(this).css('border-color', '');
+                    }
+                });
+                return isValid;
+            }
+
+            function generatewindow() {
+                $('#modalWindow').jqxWindow({
+                    maxHeight: 600,
+                    maxWidth: 600,
+                    minHeight: 130,
+                    minWidth: 400,
+                    height: 350,
+                    width: 430,
+                    resizable: false,
+                    isModal: true,
+                    modalOpacity: 0.3,
+                    cancelButton: $('#cancel'),
+                    initContent: function () {
+                        $('#ok, #cancel').jqxButton({ width: '120px' });
+                        $('#ok').focus();
+                    }
+                });
+            }
+
+            function clearForm() {
+                $("#codinternope").val('');
+                $("#cantmeses").val('');
+                $("#descripcion").val('');
+            }
+        });
+
+    </script>
+}

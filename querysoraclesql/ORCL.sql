@@ -1,0 +1,1 @@
+select  *  from  API_VENTAS where  VENRODOC =  924193 and VETIPDOC='fa'

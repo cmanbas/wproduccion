@@ -1,0 +1,284 @@
+﻿ 
+* {
+    box-sizing: border-box;
+}
+
+.button_sendoc {
+    background-image: url('../../Images/Mail.png');
+    font-family: Calibri;
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    padding-left: 44px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+ 
+    margin-left:300px;
+    padding-right: 4px;
+ 
+    color: #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+    .button_sendoc:hover {
+        background-image: url('../../Images/Mail.png');
+        color: white !important;
+        background-color: darkmagenta;
+        font-family: Calibri;
+        font-weight: bold;
+        background-repeat: no-repeat;
+        background-size: 24px 24px;
+        padding-left: 44px;
+        padding-right: 4px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+    }
+/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 28%;
+    padding: 10px;
+    /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+.form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 5px;
+}
+
+
+.form-2-box {
+    padding-top: 30px;
+    text-align: left;
+}
+
+    .form-2-box legend {
+        font-size: inherit;
+        line-height: 30px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #555;
+    }
+
+    .form-2-box .form-check-label {
+        line-height: 1.5;
+        vertical-align: top;
+    }
+
+    .form-2-box input[type="text"],
+    .form-2-box textarea {
+        background: #fff;
+        border: 2px solid #ddd;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        color: #888;
+        box-shadow: none;
+    }
+
+    .form-2-box textarea {
+        height: 120px;
+    }
+
+        .form-2-box input[type="text"]:focus,
+        .form-2-box textarea:focus {
+            outline: 0;
+            background: #fff;
+            border: 2px solid #db5d50;
+            box-shadow: none;
+        }
+
+        .form-2-box input[type="text"]::-moz-placeholder,
+        .form-2-box textarea::-moz-placeholder {
+            color: #bbb;
+            font-style: italic;
+        }
+
+        .form-2-box input[type="text"]:-ms-input-placeholder,
+        .form-2-box textarea:-ms-input-placeholder {
+            color: #bbb;
+            font-style: italic;
+        }
+
+        .form-2-box input[type="text"]::-webkit-input-placeholder,
+        .form-2-box textarea::-webkit-input-placeholder {
+            color: #bbb;
+            font-style: italic;
+        }
+
+    .form-2-box button.btn-customized {
+        margin-top: 1rem;
+        padding: .75rem 1.5rem;
+        background: #db5d50;
+        border: 0;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        color: #fff;
+        box-shadow: none;
+    }
+
+        .form-2-box button.btn-customized:hover,
+        .form-2-box button.btn-customized:active,
+        .form-2-box button.btn-customized:focus,
+        .form-2-box button.btn-customized:active:focus,
+        .form-2-box button.btn-customized.active:focus,
+        .form-2-box button.btn.btn-primary:not(:disabled):not(.disabled):active,
+        .form-2-box button.btn.btn-primary:not(:disabled):not(.disabled):active:focus {
+            outline: 0;
+            background: #ca594d;
+            border: 0;
+            color: #fff;
+            box-shadow: none;
+        }
+
+
+.form-date__label {
+    font-family: Calibri;
+    font-size: 15px;
+    width: 70px;
+    line-height: 24px;
+    padding-bottom: 8px;
+}
+
+.form-date_labelt {
+    font-family: Calibri;
+    font-size: 15px;
+    width: 100px;
+    line-height: 24px;
+    padding-bottom: 6px;
+}
+
+.form-date_labelfecha {
+    font-family: Calibri;
+    font-size: 15px;
+    width: 45px;
+    line-height: 24px;
+    padding-bottom: 8px;
+}
+
+.form-date__input[type="date"] {
+    font-family: Calibri;
+    text-align: center;
+    border: solid 1px solid gray;
+    font-size: 15px;
+    height: 25px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 4px;
+    visibility: visible;
+    width: 120px;
+}
+
+    .form-date__input[type="date"]:focus {
+        background-color: #FFFFFF;
+        height: 25px;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        border-color: transparent;
+        font-family: Calibri;
+        text-align: center;
+    }
+
+select {
+    width: 200px;
+    background-color: #FFFFFF;
+    height: 25px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-color: transparent;
+    font-family: Calibri;
+}
+
+selectlarge {
+    width: 300px;
+    background-color: #FFFFFF;
+    height: 25px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-color: transparent;
+    font-family: Calibri;
+}
+
+textcantidad {
+    width: 40px;
+    background-color: #FFFFFF;
+    height: 20px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-color: transparent;
+    font-family: Calibri;
+}
+
+.selectsmall {
+    width: 120px;
+    background-color: #FFFFFF;
+    height: 25px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-color: transparent;
+    font-family: Calibri;
+}
+
+.flex-container {
+    display: flex;
+    font-size: 13px;
+    margin-left: 60px;
+    width: 1500px;
+    height: 400px;
+    flex-wrap: wrap;
+}
+
+.flex-container, .flex-col {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.large-box {
+    width: 800px;
+    height: 500px;
+    background: whitesmoke;
+    gap: 2px;
+    box-shadow: 2px 5px 5px gray;
+    border: 0.5mm groove rgba(231, 203, 197, .6);
+}
+
+.large-box2 {
+    width: 1000px;
+    height: 100px;
+    background: whitesmoke;
+    gap: 2px;
+    box-shadow: 2px 5px 5px gray;
+    border: 0.5mm groove rgba(231, 203, 197, .6);
+}
+
+.small-box {
+    width: 550px;
+    height: 500px;
+    background: whitesmoke;
+    gap: 1px;
+    box-shadow: 2px 5px 5px gray;
+    border: 0.5mm groove rgba(231, 203, 197, .6);
+}
+
+.small-box2 {
+    width: 50px;
+    height: 80px;
+    gap: 0px;
+}
+
+ 

@@ -1,0 +1,118 @@
+﻿@{
+
+    ViewBag.Title="Datos de Producción - WebDataRocks Pivot";
+
+    Layout="~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+@section Styles {
+    <link href="https://cdn.webdatarocks.com/latest/webdatarocks.min.css" rel="stylesheet" />
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div id="pivotContainer"></div>
+
+@section Scripts {
+    <script src="https://cdn.webdatarocks.com/latest/webdatarocks.toolbar.min.js"></script>
+    <script src="https://cdn.webdatarocks.com/latest/webdatarocks.js"></script>
+    <script>
+        var spanishLocalization = {
+            'es': {
+                'Top': 'Primeros',
+                'Bottom': 'Últimos',
+                'Grand Total': 'Total General',
+                'Total': 'Total',
+                'Sort': 'Ordenar',
+                'asc': 'Ascendente',
+                'desc': 'Descendente',
+                'Filter': 'Filtrar',
+                'Select all': 'Seleccionar todo',
+                'Clear': 'Limpiar',
+                'OK': 'Aceptar',
+                'Cancel': 'Cancelar',
+                'Apply': 'Aplicar',
+                'configurator': {
+                    'Row Fields': 'Campos de Fila',
+                    'Column Fields': 'Campos de Columna',
+                    'Measures': 'Medidas',
+                    'Report Fields': 'Campos del Reporte',
+                    'Fields': 'Campos',
+                    'Filter': 'Filtro'
+                },
+                'toolbar': {
+                    'Export': 'Exportar',
+                    'Format': 'Formato',
+                    'Grid': 'Cuadrícula',
+                    'Charts': 'Gráficos',
+                    'Open': 'Abrir',
+                    'Save': 'Guardar',
+                    'Connect': 'Conectar',
+                    'Fullscreen': 'Pantalla Completa',
+                },
+                // Añade más traducciones según sea necesario
+            }
+        };
+
+        $(document).ready(function() {
+            var pivot = new WebDataRocks({
+                container: "#pivotContainer",
+                toolbar: true,
+                report: {
+                    dataSource: {
+                        dataSourceType: "json",
+                        filename: "@Url.Action("GetProductionData", "WProduccion")"
+                    },
+                    slice: {
+                        rows: [
+                            { uniqueName: "Codigo", caption: "Descripción del Producto" }, { uniqueName: "Tipo" },
+
+                        ],
+                        columns: [
+                            { uniqueName: "Agno", caption: "Año" }, { uniqueName: "Anomes",  caption: "AñoMes" },
+                    
+                        ],
+                        measures: [
+                            {
+                                uniqueName: "Valor",
+                                aggregation: "sum", 
+                                format: {
+                                    symbol: "$",
+                                    symbolDecimals: 2,
+                                    decimalPlaces: 2
+                                }
+                            }
+                        ],
+                         
+                    filters: [
+                        { uniqueName: "Codigo", caption: "Descripción del Producto"},
+                        { uniqueName: "Anomes", caption: "AñoMes" },
+                        { uniqueName: "Tipo"  }
+                    ]
+                    }
+                    ,
+                    options: {
+                        grid: {
+                            type: "classic",
+                            title: "Datos de Producción",
+                            showTotals: "off",
+                            showGrandTotals: "off"
+                        },
+                        expandAll: true
+                    },
+                    localization: spanishLocalization['es']
+                },
+            
+                global: {
+                localization: spanishLocalization['es']
+            },
+                reportcomplete: function() {
+                    pivot.off("reportcomplete");
+                    console.log("Pivot table cargada completamente"); pivot.expandAllData();
+                }
+            });
+        });
+    </script>
+}

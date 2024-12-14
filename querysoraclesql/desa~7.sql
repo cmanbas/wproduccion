@@ -1,0 +1,2 @@
+select t_carga_documento_cliente.* , (select count(1) from t_cl_ruta_documento where  t_cl_ruta_documento.documento_ref = t_carga_documento_cliente.correlativo ) tienearchvivo
+from t_carga_documento_cliente

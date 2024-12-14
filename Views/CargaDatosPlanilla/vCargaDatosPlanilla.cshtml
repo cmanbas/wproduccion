@@ -1,0 +1,100 @@
+﻿@*@model List< ACDATA.PlanillaDTO>*@
+@{
+    ViewBag.Title = "CargaDatosPlanilla";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Carga Datos Planilla</h2>
+
+<div id="jqxgrid"></div>
+
+
+@*<link href="~/Css/TablasComercial.css" rel="stylesheet" />
+<link href="~/Css/datatablebuttons.css" rel="stylesheet" />
+@section Scripts
+{
+    <link href="~/Css/jqx.material-purple.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxbuttons.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.filter.js"></script>
+
+    <script src="~/jqwidgets/jqxeditor.js"></script>
+    <script src="~/jqwidgets/jqxgrid.edit.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxexport.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.aggregates.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdraw.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/globalization/globalize.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jslocalization.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/Cierres.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            alert("entreeee");
+            var data = @Html.Raw(Json.Serialize(Model));
+            var source = {
+                localdata: data,
+                datatype: "array",
+                datafields: [
+                    { name: 'CODPROD', type: 'string' },
+                    { name: 'NOMPROD', type: 'string' },
+                    { name: 'UBICACION', type: 'number' },
+                    { name: 'tipo', type: 'string' },
+                    @for (int year = 2023; year <= 2025; year++)
+                    {
+                        for (int month = 1; month <= 12; month++)
+                        {
+                            @:{ name: '@year@month.ToString("D2")', type: 'number' },
+                        }
+                    }
+                ]
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+
+            $("#jqxgrid").jqxGrid({
+                width: '100%',
+                height: 600,
+                source: dataAdapter,
+                columnsresize: true,
+                columns: [
+                    { text: 'Código', datafield: 'CODPROD', width: 100 },
+                    { text: 'Nombre', datafield: 'NOMPROD', width: 300 },
+                    { text: 'Ubicación', datafield: 'UBICACION', width: 80 },
+                    { text: 'Tipo', datafield: 'tipo', width: 150 },
+                    @for (int year = 2023; year <= 2025; year++)
+                    {
+                        for (int month = 1; month <= 12; month++)
+                        {
+                            @:{ text: '@year-@month.ToString("D2")', datafield: '@year@month.ToString("D2")', width: 100, cellsformat: 'c2' },
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}*@

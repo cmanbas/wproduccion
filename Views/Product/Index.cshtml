@@ -1,0 +1,213 @@
+﻿@using ACDATA
+@model List<ProductViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="grid"></div>
+
+<h2>Index</h2>
+
+<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>
+
+
+
+<link href="~/Css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+<link href="~/Css/TablasComercial.css" rel="stylesheet" />
+<link href="~/Css/datatablebuttons.css" rel="stylesheet" />
+
+<style>
+    /* Estilos para los jqxGrids */
+    .jqx-grid {
+        border-color: #e0e0e0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .jqx-grid-column-header {
+        background-color: #f5f5f5;
+        font-size: 11px !important;
+        font-family: Calibri !important;
+    }
+
+    .jqx-grid-cell {
+        border-color: #e0e0e0;
+        font-size: 11px !important;
+        font-family: Calibri !important;
+    }
+    .jqx-grid-cell-filter {
+        background-color: #f5f5f5; /* Color de fondo para el área de filtro */
+        border: 1px solid #d3d3d3; /* Borde del área de filtro */
+        padding: 5px; /* Espaciado interno del filtro */
+    }
+
+    /* Estilo para el cuadro de texto dentro del filtro */
+    .jqx-grid-column-filter input[type="text"] {
+        width: 350px; /* Asegura que el cuadro de texto use todo el ancho disponible */
+        padding: 4px; /* Espaciado interno */
+        border: 1px solid #ccc; /* Borde del cuadro de texto */
+        border-radius: 4px; /* Esquinas redondeadas */
+        box-sizing: border-box; /* Ajusta el tamaño del cuadro de texto */
+    }
+
+    /* Estilo para los menús desplegables en los filtros */
+    .jqx-dropdownlist-content,
+    .jqx-dropdownlist-content-hover,
+    .jqx-dropdownlist-content-disabled {
+        background-color: #fff; /* Fondo blanco para el menú desplegable */
+        color: #333; /* Color del texto */
+        border-radius: 4px; /* Esquinas redondeadas */
+        border: 1px solid #ccc; /* Borde del menú desplegable */
+    }
+
+    /* Estilo para el calendario en el filtro de fecha */
+    .jqx-calendar {
+        border: 1px solid #aaa; /* Borde del calendario */
+        border-radius: 4px; /* Esquinas redondeadas */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para el calendario */
+    }
+
+    /* Ajustar la posición del calendario */
+    .jqx-calendar-container {
+        z-index: 10000;
+        width: 300px; /* Asegura que el calendario se muestre sobre otros elementos */
+        position: absolute; /* Posiciona el calendario de manera absoluta */
+    }
+</style>
+@section Scripts
+{
+    <link href="~/Css/jqx.base.css" rel="stylesheet" />
+    <link href="~/Css/jqx.material-purple.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+    <!--<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>-->
+
+    <script type="text/javascript" src="~/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxbuttons.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.filter.js"></script>
+
+    <script src="~/jqwidgets/jqxeditor.js"></script>
+    <script src="~/jqwidgets/jqxgrid.edit.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxexport.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.aggregates.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdraw.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/globalization/globalize.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jslocalization.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/Cierres.js"></script>
+    <script type="text/javascript" src="~/Scripts/localizationCL.js"></script>
+
+    <script type="text/javascript">
+  $(document).ready(function () {
+            var data = @Html.Raw(Json.Encode(Model));
+      
+
+            // Procesar los datos para la grid
+            var gridData = [];
+            data.forEach(function(product) {
+                product.Rows.forEach(function(row) {
+                    var gridRow = {
+                        MP: product.MP,
+                        ORDEN: row.ORDEN,
+                        PRODUCTO: row.PRODUCTO,
+                        ANOMES: row.ANOMES
+                    };
+
+                    // Añadir datos mensuales
+                    for (var monthKey in row.MonthlyData) {
+                        gridRow[monthKey] = row.MonthlyData[monthKey];
+                    }
+
+                    gridData.push(gridRow);
+                });
+
+                // Añadir fila vacía entre productos
+                gridData.push({});
+            });
+
+            // Obtener todas las claves de meses únicas de los datos
+            var allMonthKeys = new Set();
+            gridData.forEach(function(row) {
+                Object.keys(row).forEach(function(key) {
+                    if (key.match(/^\d{4}-\d{2}$/)) {
+                        allMonthKeys.add(key);
+                    }
+                });
+            });
+
+            // Ordenar las claves de meses
+            var sortedMonthKeys = Array.from(allMonthKeys).sort();
+
+            // Crear columnas para cada mes
+            var monthColumns = sortedMonthKeys.map(function(monthKey) {
+                return {
+                    text: monthKey,
+                    datafield: monthKey,
+                    width: 80, align: 'center',
+                    cellsalign: 'right',
+                    cellsformat: 'D0',
+                    //cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+                    //    if (value === null || value === undefined || value === '') {
+                    //        return '<span style="margin: 4px; float: right;">-</span>';
+                    //    }
+                    //    var numValue = parseFloat(value);
+                    //    if (isNaN(numValue)) {
+                    //        return '<span style="margin: 4px; float: right;">' + value + '</span>';
+                    //    }
+                    //    return '<span style="margin: 4px; float: right;">' + numValue.toFixed(0) + '</span>';
+                    //}
+                };
+            });
+
+            var source = {
+                localdata: gridData,
+                datatype: "array"
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+
+            $("#grid").jqxGrid({
+                width: '100%',
+                height:800,
+                source: dataAdapter,
+                columnsresize: true,
+                altrows: true,
+                showheader: true, selectionmode: 'singlerow',
+                altrows: true, showfilterrow: true,
+                filterable: true, ready: function () {
+                    $("#grid").jqxGrid('localizestrings', localizationobj);
+                    $("#grid .jqx-widget-content").css("font-size", "11px");
+                },
+                columns: [
+                    { text: 'MP', datafield: 'MP', width: 70, hidden: true },
+                    { text: 'ORDEN', datafield: 'ORDEN', width: 60, hidden: true },
+                    { text: 'PRODUCTO', datafield: 'PRODUCTO', width: 250 },
+                    { text: 'AÑO/MES', datafield: 'ANOMES', width: 100 },
+                    ...monthColumns
+                ]
+            });
+        });
+    </script>
+}

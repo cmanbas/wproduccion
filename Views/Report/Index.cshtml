@@ -1,0 +1,685 @@
+﻿@{
+    ViewBag.Title = "Reporte de Ventas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Reporte de Ventas Mensuales</h3>
+    </div>
+    <div id="loadingIndicator" class="alert alert-info" style="display: none;">
+        <i class="fa fa-spinner fa-spin"></i> Cargando datos...
+    </div>
+
+    <div id="loadingIndicatorx" class="alert alert-info" style="display: none;">
+        <i class="fa fa-spinner fa-spin"></i> Procesando columnas grilla .....
+    </div>
+    <div class="panel-body">
+        <!-- Filtros -->
+        <div class="row mb-3" id="botones">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="yearSelector">Año Inicial:</label>
+                    <select id="yearSelector" class="form-control">
+                        @for (int year = 2022; year <= 2026; year++)
+                        {
+                            <option value="@year" @(year == 2018 ? "selected" : "")>@year</option>
+
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <button id="btnConsultar" class="btn btn-primary" style="margin-top: 25px;">
+                    <i class="fa fa-search"></i> Consultar
+                </button>
+            </div>
+            <div class="col-md-2">
+                <button id="exportarbutton" class="btn btn-primary" style="margin-top: 25px;">
+                    <i class="fa fa-export"></i> Exportar
+                </button>
+          
+            </div>
+            <div class="col-md-2">
+ 
+                <button id="hideColumnsButton" class="btn btn-primary" style="margin-top: 25px;">Ocultar Columnas</button>
+            </div>
+            <div id="botones-container" style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <button id="btnagno1" class="btn btn-primary" value=" " style="margin-top: 25px;">
+                </button>
+
+                <button id="btnagno2" class="btn btn-primary" value=" " style="margin-top: 25px;">
+                </button>
+
+                <button id="btnagno2" class="btn btn-primary" value=" " style="margin-top: 25px;">
+                </button>
+            </div>
+
+
+            <!-- Indicador de carga -->
+            <!-- Grid -->
+
+        </div>
+    </div>
+</div>
+<div id="jqxgrid" style="font-size:12px; font-family: Calibri;"></div>
+
+<style>
+    /* Estilos optimizados */
+    input[type=text], input[type=number], select {
+        font-size: 13px;
+        padding: 5px 10px;
+        width: 80%;
+        outline: none;
+        background: #FFFFFF;
+        color: #000000;
+        border: 1px solid #C4D1EB;
+        border-radius: 5px;
+        box-shadow: 3px 3px 2px 0px #E2E2E2;
+        transition: .3s ease;
+    }
+
+        select:focus {
+            border-color: #7a98d4;
+            box-shadow: 0 0 0 0.2rem rgba(122, 152, 212, 0.25);
+        }
+
+        select:disabled {
+            background-color: #f5f5f5;
+            color: #aaa;
+            cursor: not-allowed;
+        }
+
+    .jqx-grid-cell {
+        color: black;
+        font-family: Calibri !important;
+        border: 0.2px solid purple !important;
+    }
+</style>
+<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>
+
+<link href="~/Css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+<link href="~/Css/TablasComercial.css" rel="stylesheet" />
+<link href="~/Css/datatablebuttons.css" rel="stylesheet" />
+@section Scripts
+{
+    <link href="~/Css/jqx.base.css" rel="stylesheet" />
+    <link href="~/Css/jqx.material-purple.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+    <!--<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>-->
+
+    <script type="text/javascript" src="~/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxbuttons.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.filter.js"></script>
+
+    <script src="~/jqwidgets/jqxeditor.js"></script>
+    <script src="~/jqwidgets/jqxgrid.edit.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxexport.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.aggregates.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdraw.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/globalization/globalize.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jslocalization.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/Cierres.js"></script>
+    <script type="text/javascript" src="~/Scripts/localizationCL.js"></script>
+
+
+    <script type="text/javascript">
+       const styles = `
+<style>
+.swal2-container {
+    z-index: 999999 !important;
+}
+
+.custom-loader {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>`;
+
+        const swalPositions = {
+            // Esquina superior derecha
+            topRight: {
+                toast: true,
+                position: 'top-end',
+                customClass: {
+                    popup: 'swal2-toast-top-right'
+                }
+            },
+
+            // Parte superior central
+            topCenter: {
+                toast: true,
+                position: 'top',
+                customClass: {
+                    popup: 'swal2-top-banner'
+                }
+            },
+
+            // Esquina superior izquierda
+            topLeft: {
+                toast: true,
+                position: 'top-start',
+                customClass: {
+                    popup: 'swal2-toast-top-left'
+                }
+            }
+        };
+
+        const datafields = [
+
+
+            // Campos base
+            { name: 'Ubicacion', type: 'number' },
+            { name: 'UbicacionDescripcion', type: 'string' },
+
+            { name: 'Codigo', type: 'string' },
+            { name: 'descfila', type: 'string' },
+            { name: 'NomTerm', type: 'string' },
+
+            { name: 'MateriaPrima', type: 'string' },
+            { name: 'DescMateriaPrima', type: 'string' },
+
+            { name: 'blister', type: 'number' },
+            { name: 'PeriodoEficacia', type: 'number' },
+            { name: 'UnidadTiempo', type: 'string' },
+            { name: 'Lote', type: 'number' },
+ 
+            { name: 'ProduccionPt', type: 'number' },
+
+            { name: 'TipoProduccion', type: 'string' },
+            { name: 'NombreTabla', type: 'string' },
+            { name: 'comentarios', type: 'string' },
+
+            { name: 'zpt', type: 'string' },
+            { name: 'descpais', type: 'string' },
+     
+
+
+
+            // Año 2018
+            { name: 'Ene18', type: 'number' },
+            { name: 'Feb18', type: 'number' },
+            { name: 'Mar18', type: 'number' },
+            { name: 'Abr18', type: 'number' },
+            { name: 'May18', type: 'number' },
+            { name: 'Jun18', type: 'number' },
+            { name: 'Jul18', type: 'number' },
+            { name: 'Ago18', type: 'number' },
+            { name: 'Sep18', type: 'number' },
+            { name: 'Oct18', type: 'number' },
+            { name: 'Nov18', type: 'number' },
+            { name: 'Dic18', type: 'number' },
+
+            // Año 2019
+            { name: 'Ene19', type: 'number' },
+            { name: 'Feb19', type: 'number' },
+            { name: 'Mar19', type: 'number' },
+            { name: 'Abr19', type: 'number' },
+            { name: 'May19', type: 'number' },
+            { name: 'Jun19', type: 'number' },
+            { name: 'Jul19', type: 'number' },
+            { name: 'Ago19', type: 'number' },
+            { name: 'Sep19', type: 'number' },
+            { name: 'Oct19', type: 'number' },
+            { name: 'Nov19', type: 'number' },
+            { name: 'Dic19', type: 'number' },
+
+            // Año 2020
+            { name: 'Ene20', type: 'number' },
+            { name: 'Feb20', type: 'number' },
+            { name: 'Mar20', type: 'number' },
+            { name: 'Abr20', type: 'number' },
+            { name: 'May20', type: 'number' },
+            { name: 'Jun20', type: 'number' },
+            { name: 'Jul20', type: 'number' },
+            { name: 'Ago20', type: 'number' },
+            { name: 'Sep20', type: 'number' },
+            { name: 'Oct20', type: 'number' },
+            { name: 'Nov20', type: 'number' },
+            { name: 'Dic20', type: 'number' }
+        ];
+        document.getElementById("hideColumnsButton").addEventListener("click", actualizarVisibilidadColumnasRX);
+        $(document).ready(function () {
+
+
+
+            // Funciones para mostrar y ocultar el mensaje
+            document.head.insertAdjacentHTML('beforeend', styles);
+
+      
+
+          $("#exportarbutton").jqxButton();
+
+            $("#exportarbutton").on('click', function () {
+
+                $("#jqxgrid").jqxGrid('exportdata', 'xlsx', "CECOSBago");
+
+            });
+            let grid = null;
+
+            function loadData() {
+                const startYear = $("#yearSelector").val();
+                const tableName = $("#tableSelector").val();
+
+                $("#loadingIndicator").show();
+
+                $.ajax({
+                    url: '@Url.Action("GetReportDatanv", "Report")',
+                    type: 'GET',
+                    data: {
+                        startYear: startYear,
+                        tableName: tableName
+                    },
+                    success: function(response) {
+                        $("#loadingIndicator").hide();
+
+                        if (response.success) {
+                            initializeGrid(response.data);
+                        } else {
+                            alert(response.message || "Error al cargar los datos");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $("#loadingIndicator").hide();
+                        alert("Error al cargar los datos: " + error);
+                    }
+                });
+            }
+
+
+
+
+
+
+
+            function initializeGrid(data) {
+
+                let añoInicial = parseInt($("#yearSelector").val());
+                let columnas = generarColumnas(añoInicial);
+                generarBotones(añoInicial);
+
+                const source = {
+                    datatype: "json",
+                    datafields: datafields,
+                    localdata: data
+                };
+
+                const dataAdapter = new $.jqx.dataAdapter(source);
+
+
+                grid = $("#jqxgrid").jqxGrid({
+                    selectionmode: 'singlerow',
+                    width: '100%',
+                    height: "580", // Disable autoheight to allow scrolling
+                /*    virtualmode: true, // Virtual Scrolling
+                    rendergridrows: function () {
+                        return dataAdapter.records; // Render rows
+                    },*/
+                        // Tamaño de la barra de scroll
+                    pageable: true,
+                    pagesize: 2500,
+
+                    source: dataAdapter,
+                    theme: 'excel',
+                  
+                    showstatusbar: true,
+                    statusbarheight: 37,
+ 
+                    showfilterrow: true,
+                    autoshowfiltericon: true,
+                    filterable: true,
+
+                    columnsresize: true,
+                    sortable: false,
+       
+              
+                  //  showaggregates: true,
+                    showstatusbar: true,
+               
+                    columns: columnas,
+                      ready: function () {
+                          $("#jqxgrid .jqx-button").css({ "font-size": "11px", "height": "20px", "margin-top": "25px" });
+
+
+                          $("#jqxgrid").jqxGrid('localizestrings', localizationobj);
+ 
+                          $("#jqxgrid .jqx-widget-content").css("font-size", "11px");
+
+
+
+                    },
+                });
+            }
+
+
+
+            $("#btnConsultar").click(loadData);
+
+
+
+            loadData(); // Carga inicial
+
+            function generarColumnas(añoInicial) {
+                const startYear = parseInt($("#yearSelector").val());
+                const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+                let columnas = [
+                    {
+                        text: 'ubicacion',
+                        datafield: 'Ubicacion',
+                        width: 100, hidden: true, pinned: true
+                    },
+ 
+                    {
+                        text: 'Granel',
+                        datafield: 'MateriaPrima',
+                        width: 80, align: 'center', filterable: true,
+                        cellsalign: 'center', pinned: true
+                    },
+                    {
+                        text: 'Descripción Granel',
+                        datafield: 'DescMateriaPrima', align: 'center', filterable: true,
+                        width: 150, pinned: true
+                    },
+                 
+
+
+                    {
+                        text: 'Código', datafield: 'Codigo', width: 70, align: 'center', filterable: true,
+                        cellsalign: 'center', pinned: true },
+ 
+                  
+                    { text: 'Descripción Producto', datafield: 'NomTerm', width: 200, pinned: true, filterable: true , align: 'center',},
+                    { text: 'T. Movimimiento', datafield: 'UbicacionDescripcion', width: 120, hidden: false, pinned: true, align: 'center', },
+
+                    { text: 'Pais', datafield: 'descpais', width: 100,  filterable: true },
+                    { text: 'ZPT', datafield: 'zpt', width: 40,  filterable: true },
+ 
+                    {
+                        text: 'Lote Máx.',
+                        datafield: 'blister',
+
+                        width: 70, align: 'center',
+                        cellsalign: 'center',
+                        cellsformat: 'n0'
+
+                    },
+                    {
+                        text: 'Lote Standard',
+                        datafield: 'Lote',
+                        width: 100, align: 'center',
+                        cellsalign: 'center',
+                        cellsformat: 'n0'
+
+                    },
+                    {
+                        text: 'P.E.',
+                        datafield: 'PeriodoEficacia',
+                        width: 50,align:'center',
+                        cellsalign: 'center'
+                    },
+
+
+                    {
+                        text: 'E.P.',
+                        datafield: 'TipoProduccion',
+
+                        width: 50, align: 'center',
+                    },
+  
+
+                ];
+
+                // Generar columnas dinámicas para tres años basados en el año inicial seleccionado
+                for (let i = 0; i < 36; i++) {
+                    const año = añoInicial + Math.floor(i / 12);
+                    const mes = meses[i % 12];
+                    const datafieldBase = `${mes}${18 + Math.floor(i / 12)}`; // datafield estático basado en 18, 19, 20
+
+                    columnas.push({
+                        text: `${mes}-${String(año).slice(-2)}`, // encabezado dinámico basado en año inicial
+                        datafield: datafieldBase, // datafield constante
+                        width: 75,
+                        cellsalign: "right",
+                        align: "center",
+                        cellsformat: 'n0'
+                    });
+                }
+
+                return columnas;
+            }
+        });
+
+        function actualizarVisibilidadColumnas(agno) {
+
+            const columnas = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            let procesadas = 0;
+
+            Swal.fire({
+                title: 'Procesando columnas',
+                html: `Progreso: 0/${columnas.length}`,
+                didOpen: () => {
+                    Swal.showLoading();
+
+                    columnas.forEach((mes, index) => {
+                        setTimeout(() => {
+                            const columna = `${mes}${agno}`;
+                            const columnaVisible = $("#jqxgrid").jqxGrid('iscolumnvisible', columna);
+
+                            if (columnaVisible) {
+                                $("#jqxgrid").jqxGrid('hidecolumn', columna);
+                            } else {
+                                $("#jqxgrid").jqxGrid('showcolumn', columna);
+                            }
+
+                            procesadas++;
+                            Swal.getHtmlContainer().innerHTML =
+                                `Progreso ocultar y/o mostrar columnas : ${procesadas}/${columnas.length}`;
+
+                            if (procesadas === columnas.length) {
+                                setTimeout(() => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Completado',
+                                        timer: 1000,
+                                        showConfirmButton: false
+                                    });
+                                }, 200);
+                            }
+                        }, index  );
+                    });
+                }
+            });
+
+        }
+
+
+        function actualizarVisibilidadColumnas2(agnopar) {
+            Swal.fire({
+                title: "procesoa",
+                html: '<div class="custom-loader".....></div>',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                backdrop: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    $("#loadingIndicatorx").show();
+                }
+            });
+
+                 const columnas = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                 const agno = agnopar; // Ejemplo de año
+
+
+
+
+                    columnas.forEach(mes => {
+                        const columna = `${mes}${agno}`;
+                        const columnaVisible = $("#jqxgrid").jqxGrid('iscolumnvisible', columna);
+
+                        if (columnaVisible) {
+                            $("#jqxgrid").jqxGrid('hidecolumn', columna);
+                        } else {
+                            $("#jqxgrid").jqxGrid('showcolumn', columna);
+                        }
+                    });
+            Swal.close();
+            //const columnas = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+            //columnas.forEach(mes => {
+            //    const columna = `${mes}${agno}`;
+            //    const columnaVisible = $("#jqxgrid").jqxGrid('iscolumnvisible', columna);
+
+
+
+            //        if (columnaVisible) {
+            //            $("#jqxgrid").jqxGrid('hidecolumn', columna);
+            //        } else {
+            //            $("#jqxgrid").jqxGrid('showcolumn', columna);
+            //        }
+
+
+            //});
+
+
+            $("#loadingIndicatorx").hide();
+        }
+        function actualizarVisibilidadColumnasRX() {
+
+ 
+
+
+
+            const columnas = ['blister', 'PeriodoEficacia', 'Lote', 'cantcomprimidos'];
+            let procesadas = 0;
+
+            Swal.fire({
+                title: 'Procesando columnas',
+                html: `Progreso: 0/${columnas.length}`,
+                didOpen: () => {
+                    Swal.showLoading();
+
+                    columnas.forEach((columna, index) => {
+                        console.log(index);
+                        setTimeout(() => {
+                            // Check if the column exists and is visible, then hide it
+                            const columnaVisible = $("#jqxgrid").jqxGrid('iscolumnvisible', columna);
+             
+                            if (columnaVisible) {
+                                $("#jqxgrid").jqxGrid('hidecolumn', columna);
+                            } else {
+                                $("#jqxgrid").jqxGrid('showcolumn', columna);
+                            }
+                            // Update progress
+                            procesadas++;
+                            Swal.getHtmlContainer().innerHTML =
+                                `Progreso ocultar columnas: ${procesadas}/${columnas.length} / ${columna}`;
+
+                            // Check if the operation is complete
+                             console.log(index);
+                            if (procesadas === columnas.length  ) {
+                                setTimeout(() => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Completado',
+                                        timer: 600,
+                                        showConfirmButton: false
+                                    });
+                                }, 100);
+                            }
+                        }, index  ); // Spread execution over time to prevent blocking UI
+                    });
+                }
+            });
+
+        }
+        function generarBotones(año) {
+            const container = document.getElementById('botones-container');
+            container.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos botones
+            const agnoValue = 18
+            for (let i = 0; i < 3; i++) {
+                const boton = document.createElement('button');
+                const idName = `btnagno${i + 1}`;
+
+                boton.id = idName;
+                boton.setAttribute('agno', agnoValue);
+                boton.name = idName;
+                boton.className = 'btn btn-primary';
+                boton.style.marginTop = '25px';
+                boton.value = `Año ${año + i}`;
+                boton.textContent = `Año ${año + i}`;
+                container.appendChild(boton);
+                boton.onclick =   function () {
+                      actualizarVisibilidadColumnas(agnoValue + i);
+                };
+            }
+        }
+        function showCornerProcessing(message = 'Procesando...') {
+            return Swal.fire({
+                title: message,
+                toast: true,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+                ...swalPositions[position]
+            });
+        }
+
+        // Función para mostrar mensaje en la parte superior como banner
+        function showTopBannerProcessing(message = 'Procesando...') {
+            return Swal.fire({
+
+
+
+                title: 'Procesando.......',
+                toast: true,
+
+                timer: 500,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+                ...swalPositions[position]
+
+
+            });
+        }
+    </script>
+}

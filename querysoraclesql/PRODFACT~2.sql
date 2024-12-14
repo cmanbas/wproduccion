@@ -1,0 +1,1 @@
+select * from VENTA_TRG_LOG

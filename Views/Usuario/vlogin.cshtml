@@ -1,0 +1,173 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ingreso login Producción</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+
+
+</head>
+<body style=" background-color:lightgray;">
+
+
+
+    <form form="loginForm" method="Post" action="/Usuario/ValidaUsuario" style=" justify-content: center; text-align: center;">
+
+        <div class="center" style=" margin: auto; border: 3px solid gray; background-color: white; padding: 10px; width: 380px; height: 400px;  ">
+            <H3 style="color: #8E44AD; text-align: center; font-weight: bold; ">Planificación Producción (pl) </H3>
+
+            <center>
+
+                <img src="~/Images/LOGOEMPRESA.png" class="mt-2" style="width: 180px; " />
+                @*<img src="~/Images/grupoMBO.jpg" class="mt-2" style="width:200px;align-content:center;" />*@
+
+            </center>
+
+
+
+            <div class="form-group">
+                <input type="email" name="usuario" placeholder="Email Usuario" id="usuario" value="" maxlength="60" autocomplete="off" required>
+                <i class="input-icon uil uil-at"></i>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" id="password" value="Bago.2024" maxlength="15" autocomplete="off" required>
+                <i class="input-icon uil uil-lock-alt"></i>
+            </div>
+            <br />
+            <center>
+
+                <button type="button" class="btn btn-default" style="width: 150px; font-size: 12px; height: 35px; padding: 2px;  " onclick="location.href=''" aria-hidden="true">Cancelar</button>
+                &nbsp;&nbsp;
+
+                <button type="submit" class=button_consulta style="width: 150px; font-size: 12px; height:35px; padding:2px; " id="btnLogin">Ingresar</button>
+
+            </center> <br />
+            <center>
+
+
+
+                @if (!string.IsNullOrEmpty(ViewBag.Message))
+                {
+                    <div class="alert-danger" style="color:red;font-weight:bold;">@ViewBag.Message</div>
+                    <label id="msg"></label>
+
+
+                }
+
+
+            </center>
+
+        </div>
+
+
+
+    </form>
+
+</body>
+</html>
+
+<link href="~/Content/sweetalert2.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+<script type="text/javascript" src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="~/Content/sweetalert2.min.js"></script>
+
+<link href="~/Css/logininit.css" rel="stylesheet" />
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#btnLogin").on('click', function () {
+            return true;
+            myStr = $("#usuario").val().trim();
+            var validRegex = /^[\w\.-]+@@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+            if (myStr === null || myStr.trim() == "" || myStr.length == 0) {
+                console.log(myStr.length);
+                $("#usuario").focus();
+                return true;
+            }
+            if (myStr.length < 8 || myStr.length > 40) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: "Usuario, caracteres 8 a 15",
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: "#DD6B55"
+                });
+                $("#usuario").focus();
+                return false
+            }
+            if (!myStr.match(validRegex)) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: "Usuario, Email incorrecto",
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: "#DD6B55"
+                });
+
+
+                $("#usuario").focus();
+
+                return true;
+
+            }
+            myStr2 = $("#password").val().trim();
+            return true;
+            if (myStr2 === null || myStr2.trim() == "" || myStr2.length == 0) {
+
+                $("#password").focus();
+                return true;
+            }
+
+
+
+
+            if (myStr2.length < 3 || myStr2.length > 15) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: "Password, caracteres 8 a 15",
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: "#DD6B55"
+                });
+                $("#password").focus();
+                return false
+            }
+
+
+        })
+    })
+
+    function test() {
+        alert(sessionStorage.getItem('favoriteMovie'));
+    }
+
+
+
+</script>
+<style>
+    body {
+        background-attachment: fixed;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    div#swal2-html-container {
+        font-size: 16px;
+        font-family: Calibri;
+        font-weight: bold;
+    }
+</style>

@@ -1,0 +1,25 @@
+--------------------------------------------------------
+-- Archivo creado  - miércoles-julio-10-2024   
+--------------------------------------------------------
+@C:\Users\cmand\T_PLANREMUNERACION.sql
+@C:\Users\cmand\T_GRUPO.sql
+@C:\Users\cmand\T_GRUPOITEM.sql
+@C:\Users\cmand\T_GERENCIA_1.sql
+@C:\Users\cmand\T_EMPLEADORENTA_1.sql
+@C:\Users\cmand\T_EMPLEADO_1.sql
+@C:\Users\cmand\T_CENTROCOSTO.sql
+--@C:\Users\cmand\T_PLANREMUNERACION_DATA_TABLE.xlsx
+--@C:\Users\cmand\T_GRUPO_DATA_TABLE.xlsx
+--@C:\Users\cmand\T_GRUPOITEM_DATA_TABLE.xlsx
+--@C:\Users\cmand\T_GERENCIA_DATA_TABLE_1.xlsx
+--@C:\Users\cmand\T_EMPLEADORENTA_DATA_TABLE_1.xlsx
+--@C:\Users\cmand\T_EMPLEADO_DATA_TABLE_1.xlsx
+--@C:\Users\cmand\T_CENTROCOSTO_DATA_TABLE.xlsx
+@C:\Users\cmand\SYS_C002045389.sql
+@C:\Users\cmand\PK_T_GERENCIA_CODINTERNO_1.sql
+@C:\Users\cmand\PK_T_EMPLEADORENTA_RUTPERVERS_1.sql
+@C:\Users\cmand\PK_T_EMPLEADO_RUT_1.sql
+@C:\Users\cmand\T_GRUPOITEM_CONSTRAINT.sql
+@C:\Users\cmand\T_GERENCIA_CONSTRAINT_1.sql
+@C:\Users\cmand\T_EMPLEADORENTA_CONSTRAINT_1.sql
+@C:\Users\cmand\T_EMPLEADO_CONSTRAINT_1.sql

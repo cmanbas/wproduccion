@@ -1,0 +1,342 @@
+﻿@{
+    ViewBag.Title = "TIPOS DE PRODUCCIÓN";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<input class="input" type="text" style="background-color: whitesmoke; font-size: 12px; color: red; font-weight:bold; visibility: hidden;" id="mensajeerror" disabled>
+
+<div style=" font-family: Calibri; font-size: 12px; display: grid; place-items: center;">
+    <h5 id="tituloidx">TIPOS DE PRODUCCIÓN</h5>
+    <div id="grid" style="font-size:12px; font-family: Calibri;">
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>
+<div id="modalWindow" hidden style="background-color: whitesmoke; font-size: 16px !important; box-shadow: inset 3px 1px 0px 3px whitesmoke; border-radius: 22px; border: 4px solid #dcdcdc; font-family: Calibri !important; width: 500px; ">
+
+    <div><h5 id="tituloid">Mantención Tipos de Producción</h5></div>
+    <div style="text-align: center; vertical-align: middle; background-color: whitesmoke !important; font-size: 12px !important; font-family: Calibri !important;">
+        <form>
+            <br />
+            <div class="form-group mt-2">
+                <label for="id" class="text-left" style="width:90px; font-family:Calibri;font-size:12px;">Id Rec.: </label>
+                <input type="number" name="id" style="width:90px; font-family:Calibri;font-size:12px;" class="form-style" disabled id="id" autocomplete="off" minlength="3" maxlength="10">
+            </div>
+
+            <div class="form-group mt-2">
+                <label for="descripcion" class="text-left" style="width:90px; font-family:Calibri;font-size:12px;">Descripción: </label>
+                <input type="text" class="input" name="descripcion" id="descripcion" placeholder="Descripción Tipo Producción" required>
+            </div>
+
+            <div class="form-group mt-2">
+                <label for="fechacreacion" class="text-left" style="width:90px; font-family:Calibri;font-size:12px;">Fecha Creación: </label>
+                <input type="date" class="input" name="fechacreacion" id="fechacreacion" required>
+            </div>
+
+        </form>
+        <div class="modal-footer">
+            <button class="botondatableCAN" id="cancel" type="button" style="font-size:12px; font-family:Calibri;">Cancelar</button>
+            <input type="button" id="ok" value="Actualiza Tipo Producción" class="botondatableADD" />
+        </div>
+    </div>
+</div>
+
+
+<link href="~/Css/TablasComercial.css" rel="stylesheet" />
+<link href="~/Css/datatablebuttons.css" rel="stylesheet" />
+@section Scripts
+{
+    <link href="~/Css/jqx.material-purple.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxbuttons.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.filter.js"></script>
+
+    <script src="~/jqwidgets/jqxeditor.js"></script>
+    <script src="~/jqwidgets/jqxgrid.edit.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxexport.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.aggregates.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdraw.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/globalization/globalize.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jslocalization.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/Cierres.js"></script>
+
+    <script type="text/javascript">
+        var indiceTipoProduccion = 0;
+        var evento = "";
+        var idTipoProduccion = 0;
+        var localizationobj = {};
+        localizationobj.percentsymbol = "%";
+        localizationobj.currencysymbol = "$";
+        localizationobj.currencysymbolposition = "anterior";
+        localizationobj.decimalseparator = ",";
+        localizationobj.thousandsseparator = ".";
+        localizationobj.pagergotopagestring = "Ir a pag=";
+        localizationobj.pagershowrowsstring = "Mostrar filas=";
+        localizationobj.pagerrangestring = " de ";
+        localizationobj.pagerpreviousbuttonstring = "previo";
+        localizationobj.pagernextbuttonstring = "siguiente";
+        localizationobj.groupsheaderstring = "Arrastre una columna para que se agrupe por ella";
+        localizationobj.sortascendingstring = "Ordenar Asc";
+        localizationobj.sortdescendingstring = "Ordenar Des";
+        localizationobj.sortremovestring = "Quitar orden";
+        localizationobj.groupbystring = "Agrupar por esta columna";
+        localizationobj.groupremovestring = "Quitar de grupos";
+        localizationobj.filterclearstring = "Limpiar";
+        localizationobj.filterstring = "Filtro"; localizationobj.filtersearchstring = "Buscar:";
+        localizationobj.filtershowrowstring = "Mostrar filas donde=";
+        localizationobj.filtershowrowdatestring = "Mostrar filas donde fecha=";
+        localizationobj.filterorconditionstring = "O";
+        localizationobj.filterandconditionstring = "Y";
+        localizationobj.filterselectallstring = "(Seleccionar Todo)";
+        localizationobj.filterchoosestring = "Por favor seleccione:";
+        localizationobj.filterstringcomparisonoperators = ['vacio', 'no vacio', 'contenga', 'contenga(coicidir Mayusculas/Minusculas)',
+            'no contenga', 'no contenga(coincidir Mayusculas/Minusculas)', 'inicia con', 'inicia con(coicidir Mayusculas/Minusculas)',
+            'termina con', 'termina con(coicidir Mayusculas/Minusculas)', 'igual', 'igual(coicidir Mayusculas/Minusculas)', 'null', 'no null'
+        ];
+        localizationobj.filternumericcomparisonoperators = ['=', '!=', '<', '<=', '>', '>=', 'null', 'no null'];
+        localizationobj.filterdatecomparisonoperators = ['=', '!=', '<', '<=', '>', '>=', 'null', 'no null'];
+        localizationobj.filterbooleancomparisonoperators = ['=', '!='];
+        localizationobj.validationstring = "Valor no valido";
+        localizationobj.emptydatastring = "No hay registros que mostrar";
+        localizationobj.filterselectstring = "Seleccione un Filtro";
+        localizationobj.loadtext = "Cargando...";
+        localizationobj.clearstring = "Limpiar";
+        localizationobj.todaystring = "hoy";
+        // ... (el resto de la configuración de localización)
+
+        $(document).ready(function () {
+            const message = '@Model.Mensaje';
+            const input = document.getElementById('mensajeerror');
+            if (message != "") {
+                $('#mensajeerror').val(message);
+                input.style.visibility = 'visible';
+                return;
+            } else {
+                input.style.visibility = 'hidden';
+            }
+
+            var source = {
+                datatype: "json",
+                datafields: [
+                    { name: 'CODINTERNO', type: 'number' },
+                    { name: 'DESCRIPCION', type: 'string' },
+                    { name: 'FECHACREACION', type: 'date' }
+                ],
+                addrow: function (rowid, rowdata, position, commit) {
+                    $.ajax({
+                        cache: false,
+                        dataType: 'json',
+                        url: '/TipoProduccion/AddTipoProduccion',
+                        data: rowdata,
+                        type: "POST",
+                        success: function (data, status, xhr) {
+                            $('#modalWindow').jqxWindow('close');
+                            $('#grid').jqxGrid('updatebounddata', 'cells');
+                            commit(true);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("Error al agregar");
+                            commit(false);
+                        }
+                    });
+                },
+                deleterow: function (rowid, commit) {
+                    $.ajax({
+                        cache: false,
+                        dataType: 'json',
+                        url: '/TipoProduccion/DeleteTipoProduccion?codinterno=' + $('#id').val(),
+                        type: "post",
+                        success: function (data, status, xhr) {
+                            $('#grid').jqxGrid('updatebounddata', 'cells');
+                            $('#modalWindow').jqxWindow('close');
+                            commit(true);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("Error al eliminar");
+                            commit(false);
+                        }
+                    });
+                },
+                updaterow: function (rowid, newdata, commit) {
+                    $.ajax({
+                        cache: false,
+                        dataType: 'json',
+                        url: '/TipoProduccion/UpdateTipoProduccion',
+                        data: newdata,
+                        type: "post",
+                        success: function (data, status, xhr) {
+                            $('#modalWindow').jqxWindow('close');
+                            $('#grid').jqxGrid('updatebounddata', 'cells');
+                            commit(true);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("Error al actualizar");
+                            commit(false);
+                        }
+                    });
+                },
+                data: "",
+                url: '/TipoProduccion/GetTiposProduccion'
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+
+            $("#grid").jqxGrid({
+                width: 500,
+                height: 530,
+                source: dataAdapter,
+                sortable: true,
+                selectionmode: 'singlerow',
+                altrows: true,
+                adaptive: false,
+                theme: 'artic',
+                pageable: true,
+                showfilterrow: true,
+                filterable: true,
+                columnsresize: true,
+                showaggregates: true,
+                showtoolbar: true,
+                showstatusbar: true,
+                statusbarheight: 30,
+                pagermode: 'simple',
+                columnsresize: true,
+                rendertoolbar: function (toolbar) {
+                    var container = $("<div style='margin: 5px; font-size:10px;'></div>");
+                    toolbar.append(container);
+                    container.append('<input style="height:22px;margin-left: 2px; font-size:10px;" id="addrowbutton" type="button" value="Agrega" class="botondatableADD" />');
+                    container.append('<input style="height:22px;margin-left: 2px; font-size:10px;" id="deleterowbutton" type="button" class="botondatableADD"  value="Elimina" />');
+                    container.append('<input style="height:22px;margin-left: 2px; font-size:10px;" id="updaterowbutton" type="button" class="botondatableADD" value="Edita" />');
+                    container.append('<input style="margin-left: 2px; font-size:10px;width:130px;" id="exportarbutton" type="button" class="botondatableADD" value="Exportar Excel" />');
+                    $("#exportarbutton").jqxButton();
+
+                    $("#exportarbutton").on('click', function () {
+                        $("#grid").jqxGrid('exportdata', 'xlsx', "TiposProduccionBago");
+                    });
+
+                    $("#addrowbutton").jqxButton();
+                    $("#deleterowbutton").jqxButton();
+                    $("#updaterowbutton").jqxButton();
+
+                    $("#updaterowbutton").on('click', function () {
+                        $("#tituloid").text("Modifica Tipo de Producción");
+                        evento = "UPD";
+                        $("#ok").val("Modificar");
+                        generatewindow();
+                        var offset = $("#grid").offset();
+                        $("#modalWindow").jqxWindow({ position: { x: parseInt(offset.left), y: parseInt(offset.top) } });
+                        $('#modalWindow').jqxWindow('open');
+                    });
+
+                    $("#addrowbutton").on('click', function () {
+                        $("#tituloid").text("Agrega Tipo de Producción");
+                        evento = "ADD";
+                        $("#descripcion").val("");
+                        $("#fechacreacion").val(new Date().toISOString().split('T')[0]);
+                        $("#ok").val("Agregar");
+                        generatewindow();
+                        var offset = $("#grid").offset();
+                        $("#modalWindow").jqxWindow({ position: { x: parseInt(offset.left), y: parseInt(offset.top) } });
+
+                        $('#modalWindow').jqxWindow('open');
+                    });
+
+                    $("#deleterowbutton").on('click', function () {
+                        evento = "DEL";
+                        $("#tituloid").text("Elimina Tipo de Producción");
+                        $("#ok").val("Eliminar");
+                        generatewindow();
+                        var offset = $("#grid").offset();
+
+                        $('#modalWindow').jqxWindow('open');
+                    });
+                },
+                ready: function () {
+                    $("#grid").jqxGrid('localizestrings', localizationobj);
+                },
+                columns: [
+                    { text: 'ID', datafield: 'CODINTERNO', align: "center", width: 50 },
+                    { text: 'DESCRIPCIÓN', datafield: 'DESCRIPCION', align: "center", width: 300 },
+                    { text: 'FECHA CREACIÓN', datafield: 'FECHACREACION', align: "center", width: 150, cellsformat: 'dd-MM-yyyy' }
+                ]
+            });
+
+            $("#ok").click(function () {
+                var data = $('#grid').jqxGrid('getrowdata', indiceTipoProduccion);
+
+                if (evento == "UPD") {
+                    var rowupd = {};
+                    rowupd["CODINTERNO"] = data.CODINTERNO;
+                    rowupd["DESCRIPCION"] = $("#descripcion").val();
+                    rowupd["FECHACREACION"] = $("#fechacreacion").val();
+                    $('#grid').jqxGrid('updaterow', indiceTipoProduccion, rowupd);
+                }
+                if (evento == "DEL") {
+                    $('#grid').jqxGrid('deleterow', idTipoProduccion);
+                };
+                if (evento == "ADD") {
+                    if (indiceTipoProduccion == 0) {
+                        var rowadd = {};
+                        rowadd["CODINTERNO"] = 0;
+                        rowadd["DESCRIPCION"] = $("#descripcion").val();
+                        rowadd["FECHACREACION"] = $("#fechacreacion").val();
+                        $('#grid').jqxGrid('addrow', indiceTipoProduccion, rowadd);
+                        }
+                }
+            });
+
+            $("#grid").on('rowselect', function (event) {
+                var data = $('#grid').jqxGrid('getrowdata', event.args.rowindex);
+                indiceTipoProduccion = event.args.rowindex;
+                idTipoProduccion = data.CODINTERNO;
+                $("#id").val(data.CODINTERNO);
+                $("#descripcion").val(data.DESCRIPCION);
+                $("#fechacreacion").val(moment(data.FECHACREACION).format('YYYY-MM-DD'));
+            });
+        });
+
+        function generatewindow() {
+
+            $('#modalWindow').jqxWindow({
+                maxHeight: 400,
+                maxWidth: 780,
+                minHeight: 130,
+                minWidth: 400,
+                height: 300,
+                width: 500,
+                resizable: false,
+                isModal: true,
+                modalOpacity: 0.3,
+                cancelButton: $('#cancel'),
+                initContent: function () {
+                    $('#ok').jqxButton({ width: '120px' });
+                    $('#cancel').jqxButton({ width: '120px' });
+                    $('#ok').focus();
+                }
+            });
+            $("#ok").jqxButton({ theme: 'energyblue', template: "default" });
+        }
+    </script>
+}

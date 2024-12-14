@@ -1,0 +1,119 @@
+﻿@using ACDATA
+@model List<ProductViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="grid"></div>
+
+<h2>Index</h2>
+
+<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>
+
+<link href="~/Css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+<link href="~/Css/TablasComercial.css" rel="stylesheet" />
+<link href="~/Css/datatablebuttons.css" rel="stylesheet" />
+@section Scripts
+{
+    <link href="~/Css/jqx.base.css" rel="stylesheet" />
+    <link href="~/Css/jqx.material-purple.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+    <!--<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>-->
+
+    <script type="text/javascript" src="~/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxbuttons.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.filter.js"></script>
+
+    <script src="~/jqwidgets/jqxeditor.js"></script>
+    <script src="~/jqwidgets/jqxgrid.edit.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxexport.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.aggregates.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdraw.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/globalization/globalize.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jslocalization.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/Cierres.js"></script>
+    <script type="text/javascript" src="~/Scripts/localizationCL.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+            var data = @Html.Raw(Json.Encode(Model));
+
+            // Procesar los datos para la grid
+            var gridData = [];
+            data.forEach(function(product) {
+            gridData = gridData.concat(product.Rows);
+            gridData.push({}); // Fila vacía entre productos
+            });
+
+            var monthColumns = [];
+            for (var year = 2023; year <= 2024; year++) {
+            for (var month = 1; month <= 12; month++) {
+            var monthKey = year + '-' + (month < 10 ? '0' + month : month);
+            monthColumns.push({
+            text: monthKey,
+            datafield: monthKey,
+            width: 80,
+            cellsalign: 'right',
+            cellsformat: 'd2',
+            cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties) {
+            if (value === null || value === undefined || value === '') {
+            return '<span style="margin: 4px; float: right;">-</span>';
+            }
+            var numValue = parseFloat(value);
+            if (isNaN(numValue)) {
+            return '<span style="margin: 4px; float: right;">' + value + '</span>';
+            }
+            return '<span style="margin: 4px; float: right;">' + numValue.toFixed(2) + '</span>';
+            }
+            });
+            }
+            }
+
+            var source = {
+            localdata: gridData,
+            datatype: "array"
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+
+            $("#grid").jqxGrid({
+            width: '100%',
+            height: 600,
+            source: dataAdapter,
+            columnsresize: true,
+            columns: [
+            { text: 'MP', datafield: 'MP', width: 70 },
+            { text: 'ORDEN', datafield: 'ORDEN', width: 60, hidden: true },
+            { text: 'PRODUCTO', datafield: 'PRODUCTO', width: 250 },
+            { text: 'AÑO/MES', datafield: 'ANOMES', width: 100 },
+            ...monthColumns
+            ]
+            });
+            });
+    </script>
+}

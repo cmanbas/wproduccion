@@ -1,0 +1,123 @@
+﻿
+input[type=text] {
+    width: 280px;
+    margin-left: 10px;
+    color: black;
+    font-size: 14px;
+    padding: 10px;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+input[type=email] {
+    width: 280px;
+    margin-left: 10px;
+    color: black;
+    font-size: 14px;
+    padding: 05px;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+input[type=password] {
+    width: 280px;
+    margin-left: 10px;
+    color: black;
+    font-size: 14px;
+    padding: 10px;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+input[type=select] {
+    width: 280px;
+    margin-left: 10px;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    color: black;
+    font-size: 14px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+input[type=number] {
+    width: 280px;
+    margin-left: 10px;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    color: black;
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+
+.center {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+   
+    background-color: white;
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-family: Arial;
+    font-size: 15px;
+/*    font-weight: bold;*/
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+}
+.button_cancelar {
+    box-shadow: 0px 1px 2px 0px #ffffff;
+    background: linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+    background-color: #ededed;
+    border-radius: 2px;
+    border: 1px solid #b2b8ad;
+    display: inline-block;
+    cursor: pointer;
+    color: #0f060f;
+    font-family: Calibri;
+    font-size: 13px;
+   /* font-weight: bold;*/
+    padding: 05px 23px;
+    text-decoration: none;
+    text-shadow: 0px 0px 1px #ffffff;
+}
+
+.button_cancelar:hover {
+    background-image: linear-gradient(to right, black 60%, gray 100%);
+    background-color: #dfdfdf;
+    color: white;
+    font-weight: bold;
+}
+
+    .button_cancelar:active {
+        position: relative;
+        top: 1px;
+    }
+
+.btn-confirmarb {
+    background-color: #f5faf5;
+    border-radius: 1px;
+    border: 1px solid black;
+    border-radius: 1px;
+    padding: 15px 50px;
+    color: black;
+    cursor: pointer;
+}
+
+    .btn-confirmarb:hover {
+        background-color: #d8e8d9;
+        color: black !important;
+        font-weight: bold;
+    }
+
+    .btn-confirmarb:active {
+        position: relative;
+        top: 1px;
+    }

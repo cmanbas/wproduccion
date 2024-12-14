@@ -1,0 +1,213 @@
+﻿ 
+input[type=text] {
+    font-size: 13px;
+    padding: 5px 10px;
+    width: 80%;
+    outline: none;
+    background: #FFFFFF;
+    color: #000000;
+    border: 1px solid #C4D1EB;
+    border-radius: 5px;
+    box-shadow: 3px 3px 2px 0px #E2E2E2;
+    transition: .3s ease;
+}
+
+input[type=number] {
+    font-size: 12px;
+    padding: 5px 10px 5px;
+    width: 80%;
+    outline: none;
+    background: #FFFFFF;
+    color: #000000;
+    border: 1px solid #C4D1EB;
+    border-radius: 5px;
+    box-shadow: 3px 3px 2px 0px #E2E2E2;
+    transition: .3s ease;
+}
+ textarea {
+    font-size: 12px;
+    padding: 5px 10px 5px;
+    width: 80%;
+    outline: none;
+    background: #FFFFFF;
+    color: #000000;
+    border: 1px solid #C4D1EB;
+    border-radius: 5px;
+    box-shadow: 3px 3px 2px 0px #E2E2E2;
+    transition: .3s ease;
+}
+
+.greencell {
+    color: black;
+    background-color: lightgreen;
+}
+
+.redcell {
+    color: white;
+    background-color: darkred;
+}
+
+
+.orangecelladmin .jqx-button {
+    color: black !important;
+    background-color: #faf2e6 !important;
+    border-radius: 2px !important;
+    border: 1px solid #b2b8ad !important;
+    font-size: 11px !important;
+}
+
+.grencelladmin .jqx-button {
+    color: black !important;
+    background-color: palegreen !important;
+    font-size: 11px !important;
+    border-radius: 2px !important;
+    border: 1px solid #b2b8ad !important;
+}
+
+
+
+
+
+
+
+
+.orangecell {
+    color: black;
+    background-color: #faf2e6;
+    font-size: 11px;
+}
+
+    .orangecell .jqx-button {
+        color: black !important;
+        font-size: 11px !important;
+        border-radius: 2px !important;
+        border: 1px solid #b2b8ad !important;
+    }
+
+    .orangecell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .orangecell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+        color: black;
+        background-color: #faf2e6;
+    }
+
+    .orangecell .jqx-grid-cell-hover, .jqx-grid-cell-selected, .jqx-grid-cell-hover, .jqx-grid-cell-selected {
+        color: black;
+        font-weight: bold;
+        background-color: powderblue;
+        font-size: 11px;
+    }
+
+
+.cssadmin .jqx-button {
+    color: black !important;
+    background-color: palegreen !important;
+    font-size: 11px !important;
+    border-radius: 2px !important;
+    border: 1px solid #b2b8ad !important;
+}
+
+.cssfin .jqx-button {
+    color: black !important;
+    background-color: mintcream !important;
+    border-radius: 2px !important;
+    border: 1px solid #b2b8ad !important;
+    font-size: 11px !important;
+}
+
+.solotiendacell {
+    color: red;
+    background-color: lightskyblue;
+    font-size: 11px;
+}
+
+    .solotiendacell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .solotiendacell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+        color: black;
+        background-color: orange;
+        font-size: 11px;
+    }
+
+
+
+
+.yellow {
+    color: black;
+    background-color: #B0BF44;
+    font-size: 11px;
+}
+
+
+
+
+    .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .yellow:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+        color: black;
+        background-color: #f7f7d2;
+        font-size: 11px;
+    }
+
+    .yellow .jqx-grid-cell-hover, .jqx-grid-cell-selected, .jqx-grid-cell-hover, .jqx-grid-cell-selected {
+        color: black;
+        font-weight: bold;
+        background-color: powderblue;
+        font-size: 11px;
+    }
+
+.centertitle {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.colortienda {
+    color: black;
+    background-color: paleturquoise;
+    font-size: 11px;
+}
+
+
+
+
+    .colortienda:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .colortienda:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+        color: black;
+        background-color: paleturquoise;
+        font-size: 11px;
+    }
+
+    .colortienda .jqx-grid-cell-hover, .jqx-grid-cell-selected, .jqx-grid-cell-hover, .jqx-grid-cell-selected {
+        color: black;
+        font-weight: bold;
+        background-color: powderblue;
+        font-size: 11px;
+    }
+
+.redcell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .redcell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+    color: white;
+    background-color: darkred;
+}
+
+.greencell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .greencell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {
+    color: black;
+    background-color: lightgreen;
+}
+
+ .jqx-grid-cell-pinned, .jqx-grid-column-header {
+    background-color: Teal;
+    color: black;
+    font-weight: bold;
+    font-size: 14PX;
+}
+
+#grid .jqx-button-web {
+    background-color: ButtonShadow;
+    color: black;
+    height: 13PX;
+    width: 20PX;
+    font-size: 11PX;
+    border: 1px solid #C4D1EB;
+    border-radius: 4px;
+    box-shadow: 3px 3px 2px 0px #E2E2E2;
+}
+ 

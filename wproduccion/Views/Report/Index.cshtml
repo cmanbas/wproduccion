@@ -1,0 +1,1462 @@
+﻿@{
+    ViewBag.Title = "PLANIFICACIÓN PRODUCCIÓN";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">PLANIFICACIÓN PRODUCCIÓN</h3>
+    </div>
+    <div id="loadingIndicator" class="alert alert-info" style="display: none;">
+        <i class="fa fa-spinner fa-spin"></i> Cargando datos...
+    </div>
+
+    <div id="loadingIndicatorx" class="alert alert-info" style="display: none;">
+        <i class="fa fa-spinner fa-spin"></i> Procesando columnas grilla .....
+    </div>
+    <div class="panel-body">
+        <!-- Filtros -->
+        <div class="row mb-3" id="botones">
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label for="yearSelector">Año Inicial:</label>
+                    <select id="yearSelector" class="form-control" style="width:90PX;font-size:11PX;">
+                        @for (int year = 2024; year <= 2026; year++)
+                        {
+                            <option value="@year" @(year == 2018 ? "selected" : "")>@year</option>
+
+                        }
+                    </select>
+                </div>
+
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="selmaterialprima">Granel : </label>
+                    <select id="selmaterialprima" class="form-control" style="width: 350PX; font-size: 11PX;">
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <button id="btnConsultar" class="btn btn-primary" onclick="loadData();" style="margin-top: 25px; font-size: 11PX;">
+                    <i class="fa fa-search"></i> Consultar
+                </button>
+            </div>
+            <div class="col-md-1">
+                <button id="exportarbutton" class="btn btn-primary" style="margin-top: 25px; font-size: 11PX;">
+                    <i class="fa fa-export"></i> Exportar
+                </button>
+
+            </div>
+            <div class="col-md-2">
+
+                <button id="hideColumnsButton" class="btn btn-primary" style="margin-top: 25px; font-size: 11PX;">Ocultar Columnas</button>
+            </div>
+            <div id="botones-container" style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <button id="btnagno1" class="btn btn-primary" value=" " style="margin-top: 25px; font-size: 11PX;">
+                </button>
+
+                <button id="btnagno2" class="btn btn-primary" value=" " style="margin-top: 25px; font-size: 11PX;">
+                </button>
+
+                <button id="btnagno2" class="btn btn-primary" value=" " style="margin-top: 25px; font-size: 11PX;">
+                </button>
+            </div>
+
+
+            <!-- Indicador de carga -->
+            <!-- Grid -->
+
+        </div>
+    </div>
+</div>
+<div id="jqxgrid" style="font-size:12px; font-family: Calibri;"></div>
+<div id="detailsWindow" style="text-align: center ;" hidden>
+    <div>Editar Registro</div>
+    <div>
+        <form id="editForm">
+            <table id="tdetailsWindow" style="width: 100%; border-spacing: 10px;">
+                <tr hidden>
+                    <td><label for="ubicacion">Ubicación:</label></td>
+                    <td><input type="text" id="ubicacion" readonly /></td>
+                </tr>
+                <tr>
+                    <td><label for="ubicacionDescripcion">Descripción:</label></td>
+                    <td><input type="text" id="ubicacionDescripcion" readonly /></td>
+                </tr>
+                <tr>
+                    <td><label for="codigo">Código:</label></td>
+                    <td><input type="text" id="codigo" readonly /></td>
+                </tr>
+                <tr>
+                    <td><label for="nomTerm">Nombre Producto:</label></td>
+                    <td><input type="text" id="nomTerm" readonly /></td>
+                </tr>
+                <tr>
+                    <td><label for="materiaPrima">Granel:</label></td>
+                    <td><input type="text" id="materiaPrima" readonly /></td>
+                </tr>
+                <tr>
+                    <td><label for="descMateriaPrima">Descripción:</label></td>
+                    <td><input type="text" id="descMateriaPrima" readonly /></td>
+                </tr>
+                <tr>
+                    <td><label for="agnoMes">Año-Mes:</label></td>
+                    <td><input type="text" id="agnoMes" readonly /></td>
+                </tr>
+                <tr>
+                    <td><label for="valorActual">Valor Actual:</label></td>
+                    <td><input type="text" id="valorActual" readonly /></td>
+                </tr>
+                <tr>
+                    <td><label for="nuevoValor">Nuevo valor:</label></td>
+                    <td><input type="text" style="background-color:antiquewhite;" id="nuevoValor" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <label for="comentarioanterior">Comentario Actual:</label>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+
+                        <input type="text" style="width:500px;" id="comentarioanterior" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <label for="comentario">Comentario nuevo:</label>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+
+                        <input type="text" style="background-color:antiquewhite;width:500px;" id="comentario"   />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <div class="centertitle" style="text-align:center;">
+                <button type="button" class="btn-confirmarb" id="saveButton">Grabar</button>
+            </div>
+            
+        </form>
+    </div>
+</div>
+<style>
+    /* Estilos optimizados */
+    .select2-container {
+        z-index: 9999 !important;
+    }
+        input [type=text], input[type=number], select {
+        font-size: 13px;
+        padding: 5px 10px;
+        width: 80%;
+        outline: none;
+        background: #FFFFFF;
+        color: #000000;
+        border: 1px solid #C4D1EB;
+        border-radius: 5px;
+        box-shadow: 3px 3px 2px 0px #E2E2E2;
+        transition: .3s ease;
+    }
+
+        select:focus {
+            border-color: #7a98d4;
+            box-shadow: 0 0 0 0.2rem rgba(122, 152, 212, 0.25);
+        }
+
+        select:disabled {
+            background-color: #f5f5f5;
+            color: #aaa;
+            cursor: not-allowed;
+        }
+
+    .jqx-grid-cell {
+        color: black;
+        font-family: Calibri !important;
+        border: 0.2px solid purple !important;
+    }
+</style>
+
+<link href="~/Css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+
+
+
+
+<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/Scripts/Cierres.js"></script>
+
+
+<link href="~/Css/TablasComercial.css" rel="stylesheet" />
+<link href="~/Css/datatablebuttons.css" rel="stylesheet" />
+@section Scripts
+{
+    <link href="~/Css/jqx.base.css" rel="stylesheet" />
+    <link href="~/Css/jqx.material-purple.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+    <!--<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>-->
+
+    <script type="text/javascript" src="~/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxbuttons.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.filter.js"></script>
+
+    <script src="~/jqwidgets/jqxeditor.js"></script>
+    <script src="~/jqwidgets/jqxgrid.edit.js"></script>
+
+    <script type="text/javascript" src="~/jqwidgets/jqxdata.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.export.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxexport.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.aggregates.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/jqwidgets/jqxdraw.js"></script>
+
+
+    <script type="text/javascript" src="~/jqwidgets/jqxgrid.columnsreorder.js"></script>
+
+
+    <script type="text/javascript" src="~/jqwidgets/globalization/globalize.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jslocalization.js"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+    <script src="~/Scripts/Cierres.js"></script>
+    <script type="text/javascript" src="~/Scripts/localizationCL.js"></script>
+
+
+    <script type="text/javascript">
+       const styles = `
+<style>
+.swal2-container {
+    z-index: 999999 !important;
+}
+
+.custom-loader {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+ 
+#tdetailsWindow  input {
+    width: 350px;
+    box-sizing: border-box;  font-size: 12px; font-family: Calibri;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: #f9f9f9;
+}
+#tdetailsWindow   label {
+    width: 130px;text-align: right;
+  font-size: 12px; font-family: Calibri;
+    padding: 10px;
+    background-color: transparent;
+}
+</style>`;
+
+        const swalPositions = {
+            // Esquina superior derecha
+            topRight: {
+                toast: true,
+                position: 'top-end',
+                customClass: {
+                    popup: 'swal2-toast-top-right'
+                }
+            },
+
+            // Parte superior central
+            topCenter: {
+                toast: true,
+                position: 'top',
+                customClass: {
+                    popup: 'swal2-top-banner'
+                }
+            },
+
+            // Esquina superior izquierda
+            topLeft: {
+                toast: true,
+                position: 'top-start',
+                customClass: {
+                    popup: 'swal2-toast-top-left'
+                }
+            }
+        };
+
+        const datafields = [
+
+
+            // Campos base
+            { name: 'Ubicacion', type: 'number' },
+            { name: 'UbicacionDescripcion', type: 'string' },
+
+            { name: 'Codigo', type: 'string' },
+            { name: 'descfila', type: 'string' },
+            { name: 'NomTerm', type: 'string' },
+
+            { name: 'MateriaPrima', type: 'string' },
+            { name: 'DescMateriaPrima', type: 'string' },
+
+            { name: 'blister', type: 'number' },
+            { name: 'PeriodoEficacia', type: 'number' },
+            { name: 'UnidadTiempo', type: 'string' },
+            { name: 'Lote', type: 'number' },
+
+            { name: 'ProduccionPt', type: 'number' },
+
+            { name: 'TipoProduccion', type: 'string' },
+            { name: 'NombreTabla', type: 'string' },
+            { name: 'comentarios', type: 'string' },
+
+            { name: 'zpt', type: 'string' },
+            { name: 'descpais', type: 'string' },
+            { name: 'cblister', type: 'number' },
+            { name: 'sem', type: 'number' },
+
+
+            // Año 2018
+            { name: 'Ene18', type: 'number' },
+            { name: 'Feb18', type: 'number' },
+            { name: 'Mar18', type: 'number' },
+            { name: 'Abr18', type: 'number' },
+            { name: 'May18', type: 'number' },
+            { name: 'Jun18', type: 'number' },
+            { name: 'Jul18', type: 'number' },
+            { name: 'Ago18', type: 'number' },
+            { name: 'Sep18', type: 'number' },
+            { name: 'Oct18', type: 'number' },
+            { name: 'Nov18', type: 'number' },
+            { name: 'Dic18', type: 'number' },
+
+            // Año 2019
+            { name: 'Ene19', type: 'number' },
+            { name: 'Feb19', type: 'number' },
+            { name: 'Mar19', type: 'number' },
+            { name: 'Abr19', type: 'number' },
+            { name: 'May19', type: 'number' },
+            { name: 'Jun19', type: 'number' },
+            { name: 'Jul19', type: 'number' },
+            { name: 'Ago19', type: 'number' },
+            { name: 'Sep19', type: 'number' },
+            { name: 'Oct19', type: 'number' },
+            { name: 'Nov19', type: 'number' },
+            { name: 'Dic19', type: 'number' },
+
+            // Año 2020
+            { name: 'Ene20', type: 'number' },
+            { name: 'Feb20', type: 'number' },
+            { name: 'Mar20', type: 'number' },
+            { name: 'Abr20', type: 'number' },
+            { name: 'May20', type: 'number' },
+            { name: 'Jun20', type: 'number' },
+            { name: 'Jul20', type: 'number' },
+            { name: 'Ago20', type: 'number' },
+            { name: 'Sep20', type: 'number' },
+            { name: 'Oct20', type: 'number' },
+            { name: 'Nov20', type: 'number' },
+            { name: 'Dic20', type: 'number' },
+            { name: 'cEne18', type: 'number' },
+            { name: 'cFeb18', type: 'number' },
+            { name: 'cMar18', type: 'number' },
+            { name: 'cAbr18', type: 'number' },
+            { name: 'cMay18', type: 'number' },
+            { name: 'cJun18', type: 'number' },
+            { name: 'cJul18', type: 'number' },
+            { name: 'cAgo18', type: 'number' },
+            { name: 'cSep18', type: 'number' },
+            { name: 'cOct18', type: 'number' },
+            { name: 'cNov18', type: 'number' },
+            { name: 'cDic18', type: 'number' },
+            // Comentarios 2019
+            { name: 'cEne19', type: 'number' },
+            { name: 'cFeb19', type: 'number' },
+            { name: 'cMar19', type: 'number' },
+            { name: 'cAbr19', type: 'number' },
+            { name: 'cMay19', type: 'number' },
+            { name: 'cJun19', type: 'number' },
+            { name: 'cJul19', type: 'number' },
+            { name: 'cAgo19', type: 'number' },
+            { name: 'cSep19', type: 'number' },
+            { name: 'cOct19', type: 'number' },
+            { name: 'cNov19', type: 'number' },
+            { name: 'cDic19', type: 'number' },
+            // Comentarios 2020
+            { name: 'cEne20', type: 'number' },
+            { name: 'cFeb20', type: 'number' },
+            { name: 'cMar20', type: 'number' },
+            { name: 'cAbr20', type: 'number' },
+            { name: 'cMay20', type: 'number' },
+            { name: 'cJun20', type: 'number' },
+            { name: 'cJul20', type: 'number' },
+            { name: 'cAgo20', type: 'number' },
+            { name: 'cSep20', type: 'number' },
+            { name: 'cOct20', type: 'number' },
+            { name: 'cNov20', type: 'number' },
+            { name: 'cDic20', type: 'number' }
+        ];
+
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        const currentMonth = today.getMonth() + 1;
+
+        // Calculate start month and year for the 3-month range
+        let startMonth = currentMonth - 3;
+        let yearToCheck = currentYear;
+
+        if (startMonth <= 0) {
+            startMonth = 12 + startMonth;
+            yearToCheck = currentYear - 1;
+        }
+
+        function formatNumberWithThousands(value) {
+            return new Intl.NumberFormat("es-ES", {
+                maximumFractionDigits: 0,
+                useGrouping: true
+            }).format(value);
+
+ 
+        }
+        document.getElementById("hideColumnsButton").addEventListener("click", actualizarVisibilidadColumnasRX);
+        $(document).ready(function () {
+
+            
+
+            $("#detailsWindow").jqxWindow({
+                width: 550,
+                height: 550,
+                isModal: true,
+                autoOpen: false,
+                draggable: true,
+                resizable: false,
+                modalOpacity: 0.5
+            });
+
+            $("#jqxgrid").on("celldoubleclick", function (event) {
+                const args = event.args;
+                const column = args.datafield; // Nombre de la columna seleccionada
+                const row = args.rowindex;     // Índice de la fila seleccionada
+
+ 
+
+                let fecha = new Date();
+
+                // Restar 3 meses
+                fecha.setMonth(fecha.getMonth() - 3);
+
+                // Obtener año y mes en formato YYYYMM
+                let agno = fecha.getFullYear();
+                let mes = fecha.getMonth() + 1; // +1 porque los meses van de 0-11
+
+                // Formatear mes para que siempre tenga 2 dígitos
+                let mesFormateado = mes.toString().padStart(2, '0');
+
+                // Combinar en formato YYYYMM
+                let periodo2 = `${agno}${mesFormateado}`;
+
+                const rowData = $("#jqxgrid").jqxGrid("getrowdata", row);
+               
+                const startYear = $("#yearSelector").val();
+                // Lista de meses en orden
+                const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+                const allowedLocations = [2, 5];
+
+                // Extraer el nombre del mes y validar si la columna pertenece a Año-Mes
+                const mesAbreviado = column.substring(0, 3); // Los primeros 3 caracteres (Ene, Feb, etc.)
+                const mesIndex = meses.indexOf(mesAbreviado); // Obtener el índice del mes
+
+                if (allowedLocations.includes(rowData.Ubicacion)) {
+                if (mesIndex !== -1) {
+                    // Calcular el año dinámicamente
+                    const colYear = startYear + parseInt(column.substring(3), 10) - 18;
+                    const colYear2 = colYear / 100 
+
+                    // Formatear el mes como número (01, 02, ..., 12)
+                    const monthNumber = String(mesIndex + 1).padStart(2, "0");
+
+                    // Generar el formato YYYYMM
+                    const agnoMes = `${colYear2}${monthNumber}`;
+     
+                    //if (periodo2 > agnoMes) {return  ;}
+            
+
+                    // Obtener los datos de la fila seleccionada
+                    const agnoMes2 = `${colYear2}-${monthNumber}`;
+
+                    // Precargar los datos en la ventana
+                    $("#ubicacion").val(rowData.Ubicacion);
+                    $("#ubicacionDescripcion").val(rowData.UbicacionDescripcion);
+                    $("#codigo").val(rowData.Codigo);
+                    $("#nomTerm").val(rowData.NomTerm);
+                    $("#materiaPrima").val(rowData.MateriaPrima);
+                    $("#descMateriaPrima").val(rowData.DescMateriaPrima);
+                    rowData.Periodo = agnoMes2;
+
+
+
+                    $("#agnoMes").val(agnoMes2);
+                    $("#valorActual").val(formatNumberWithThousands(rowData[column])); //
+                    $("#nuevoValor").val(""); // Valor de la celda seleccionada
+                    $("#comentario").val("");
+
+                    $.ajax({
+                        url: '/AgnoMesUbicacion/ObtenerCeldaGrilla', // Reemplaza "TuControlador" por el nombre de tu controlador
+                        type: 'GET',
+                        data: rowData, // Los parámetros se envían como un objeto
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        success: function (response) {
+                            console.log(response.data);
+                   
+                            if (response.data.Success) {
+                                $("#comentarioanterior").val(response.data.Comentario);
+                            } else {
+                                alert("Error: " + response.data.Comentario);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("Error en la solicitud: xxxxx " + error);
+                        }
+                    });
+
+                 
+                    // Abrir la ventana
+
+
+ 
+                    if (periodo2 > agnoMes) { $("#saveButton").hide(); }
+                    else { $("#saveButton").show();}
+
+                    $("#detailsWindow").jqxWindow("open");
+                }
+                }
+            });
+
+            // Botón Guardar
+            $("#saveButton").on("click", function () {
+                const ubicacion = $("#ubicacion").val();
+                const codigo = $("#codigo").val();
+                const agnoMes = $("#agnoMes").val();
+                const nuevoValor = $("#nuevoValor").val();
+                const comentario = $("#comentario").val();
+
+           
+                    var parametros = {
+                        Codigo: codigo,
+                        MateriaPrima: "",
+                        Periodo: agnoMes,
+                        Ubicacion: ubicacion,
+                        NuevoValor: nuevoValor,
+                        Comentario: comentario
+                    };
+
+                    $.ajax({
+                        url: '/AgnoMesUbicacion/ActualizaCeldaGrilla',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(parametros),
+                        success: function (response) {
+                       
+                            if (response.success) {
+                                // Confirmar el cambio
+/*                                $('#jqxgrid').jqxGrid('updatebounddata', 'cells');*/
+                                $("#detailsWindow").jqxWindow("close");
+
+
+
+                                loadData();
+
+                                
+                            //    $("#jqxgrid").jqxGrid('updatebounddata');
+
+                                alert(response.message);
+                            } else {
+                                // Rechazar el cambio
+                                commit(false);
+                                alert(response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            // Rechazar el cambio en caso de error
+                            commit(false);
+                            alert('Error al actualizar: ' + error);
+                        }
+                    });
+            });
+
+
+            cargarMateriasPrimas();
+       
+ 
+            $('#yearSelector').select2();
+            $('#selmaterialprima').select2({
+
+                maximumInputLength: 20, // Máximo de caracteres permitidos
+                maximumResultsForSearch: 3,
+                maximumShown: 3,
+            });
+
+
+            // Funciones para mostrar y ocultar el mensaje
+            document.head.insertAdjacentHTML('beforeend', styles);
+
+
+
+
+            $("#exportarbutton").jqxButton();
+
+            $("#exportarbutton").on('click', function () {
+
+                $("#jqxgrid").jqxGrid('exportdata', 'xlsx', "CECOSBago");
+
+            });
+
+
+
+
+ 
+
+
+        });
+        var cellsrenderer = function (row, columnfield, value, rowdata, column) {
+            const headerText = column.text; // Formato: "Ene-24"
+            const monthMap = {
+                'Ene': 1, 'Feb': 2, 'Mar': 3, 'Abr': 4, 'May': 5, 'Jun': 6,
+                'Jul': 7, 'Ago': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dic': 12
+            };
+ 
+            var rowDataFromGrid = $("#jqxgrid").jqxGrid('getrowdata', row);
+       
+
+
+            let backgroundColor = '#ffffff';
+
+            const ubicacionValue = $('#jqxgrid').jqxGrid('getcellvalue', row, 'Ubicacion');
+            const desubicacionValue = $('#jqxgrid').jqxGrid('getcellvalue', row, 'UbicacionDescripcion');
+
+            const isSpecialLocation = ubicacionValue == "2" || ubicacionValue == "5";
+            const isdesSpecialLocation = desubicacionValue == "LOTES" || desubicacionValue == "TOTAL LOTES" ;
+            // Extraer mes y año del header (Ene-24)
+            const parts = headerText.split('-');
+            if (parts.length === 2) {
+                const monthAbbr = parts[0];
+                const columnYear = 2000 + parseInt(parts[1]);
+                const columnMonth = monthMap[monthAbbr];
+
+                // Convertir fechas a números comparables (YYYYMM)
+                const columnDate = (columnYear * 100) + columnMonth;
+        
+                const checkDate = (yearToCheck * 100) + startMonth;
+
+                // Verificar si la columna está en el rango permitido
+                if (isSpecialLocation) {
+                    if (columnDate >= checkDate) {
+                        backgroundColor = '#e6ffe6';
+                    }
+                }
+            }
+            // Formatear el número con separadores de miles y sin decimales
+
+
+
+
+            const formattedValue = value ? Math.round(value).toLocaleString('es-ES', {
+                maximumFractionDigits: 0,
+                useGrouping: true,
+                style: 'decimal'
+            }) : '0';
+            const formattedValue2 = value ? parseFloat(value).toFixed(2).toLocaleString('es-ES') : '0';
+            if (isdesSpecialLocation) {
+
+
+
+                return '<div style="text-align: center; font-size: 12px; font-family: Calibri;  font-weight: bold;' +
+                    'margin-top: 5px; background-color: ' + backgroundColor + ';">' + formattedValue2 + '</div>';
+
+             
+                  }
+            else {
+                if (rowDataFromGrid.cEne18 != 0 && columnfield == 'Ene18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cFeb18 != 0 && columnfield == 'Feb18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cMar18 != 0 && columnfield == 'Mar18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cAbr18 != 0 && columnfield == 'Abr18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cMay18 != 0 && columnfield == 'May18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cJun18 != 0 && columnfield == 'Jun18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cJul18 != 0 && columnfield == 'Jul18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cAgo18 != 0 && columnfield == 'Ago18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cSep18 != 0 && columnfield == 'Sep18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cOct18 != 0 && columnfield == 'Oct18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cNov18 != 0 && columnfield == 'Nov18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cDic18 != 0 && columnfield == 'Dic18') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+
+                // 2019
+                if (rowDataFromGrid.cEne19 != 0 && columnfield == 'Ene19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cFeb19 != 0 && columnfield == 'Feb19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cMar19 != 0 && columnfield == 'Mar19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cAbr19 != 0 && columnfield == 'Abr19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cMay19 != 0 && columnfield == 'May19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cJun19 != 0 && columnfield == 'Jun19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cJul19 != 0 && columnfield == 'Jul19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cAgo19 != 0 && columnfield == 'Ago19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cSep19 != 0 && columnfield == 'Sep19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cOct19 != 0 && columnfield == 'Oct19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cNov19 != 0 && columnfield == 'Nov19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cDic19 != 0 && columnfield == 'Dic19') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+
+                // 2020
+                if (rowDataFromGrid.cEne20 != 0 && columnfield == 'Ene20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cFeb20 != 0 && columnfield == 'Feb20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cMar20 != 0 && columnfield == 'Mar20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cAbr20 != 0 && columnfield == 'Abr20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cMay20 != 0 && columnfield == 'May20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cJun20 != 0 && columnfield == 'Jun20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cJul20 != 0 && columnfield == 'Jul20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cAgo20 != 0 && columnfield == 'Ago20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cSep20 != 0 && columnfield == 'Sep20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cOct20 != 0 && columnfield == 'Oct20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cNov20 != 0 && columnfield == 'Nov20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                if (rowDataFromGrid.cDic20 != 0 && columnfield == 'Dic20') {
+                    return '<div style="text-align: center; font-size: 12px; font-family: tahoma; margin-top: 5px; background-color:yellow;">' + formattedValue + '</div>';
+                }
+                return '<div style="text-align: center; font-size: 12px; font-family: Calibri; ' +
+                    'margin-top: 5px; background-color: ' + backgroundColor + ';">' +
+                    formattedValue + '</div>';
+            }
+
+
+
+        }
+        function generarColumnas(añoInicial) {
+            const startYear = parseInt($("#yearSelector").val());
+            const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+            let columnas = [
+                {
+                    text: 'ubicacion',
+                    datafield: 'Ubicacion',
+                    width: 90, hidden: true, pinned: true
+                },
+
+                {
+                    text: 'Granel',
+                    datafield: 'MateriaPrima',
+                    width: 60, align: 'center', filterable: true,
+                    cellsalign: 'center', pinned: true,
+                    cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+                        if (rowdata.Ubicacion !== 1) {
+                            return '<div style="text-align: center;"></div>';
+                        }
+                        else {
+                            return `
+          <div style="display: flex; align-items: center; justify-content: center;
+                        font-weight: bold; color: white; background-color: purple;
+                        height: 100%; width: 100%;">
+                ${value}
+            </div>`;
+                        }
+                    }
+                },
+                {
+
+                    text: 'Descripción Granel',
+                    datafield: 'DescMateriaPrima', align: 'center', filterable: true,
+                    width: 130, pinned: true,
+                    cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+                        if (rowdata.Ubicacion !== 1) {
+                            return '<div style="text-align: center; background-color:transparent;"></div>';
+                        }
+                        else {
+                            return `
+          <div style="display: flex; align-items: center;justify-content: left;
+                        font-weight: bold; color: white; background-color: purple;
+                        height: 100%; width: 100%;">
+                ${value}
+            </div>`;
+                        }
+                    }
+                },
+
+
+
+                {
+                    text: 'Código', datafield: 'Codigo', width: 60, align: 'center', filterable: true,
+                    cellsalign: 'center', pinned: true,
+                    cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+                        if (rowdata.Ubicacion !== 1) {
+                            return '<div style="text-align: center;"></div>';
+                        }
+                        else {
+                            return `
+          <div style="display: flex; align-items: center; justify-content: center;
+                        font-weight: bold; color: white; background-color: purple;
+                        height: 100%; width: 100%;">
+                ${value}
+            </div>`;
+                        }
+                    }
+                },
+
+
+                {
+                    text: 'Descripción Producto', datafield: 'NomTerm', width: 190, pinned: true, filterable: true, align: 'center',
+                    cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+                        if (rowdata.Ubicacion !== 1) {
+                            return '<div style="text-align: center;"></div>';
+                        }
+                        else {
+                            return `
+          <div style="display: flex; align-items: center; justify-content: left;
+                        font-weight: bold; color: white; background-color: purple;
+                        height: 100%; width: 100%;">
+                ${value}
+            </div>`;
+                        }
+
+                    }
+                },
+                { text: 'T. Movto.', datafield: 'UbicacionDescripcion', width:80, hidden: false, pinned: true, align: 'center', },
+
+                { text: 'Pais', datafield: 'descpais', width: 70, filterable: true, align: 'center', cellsalign: 'center'  },
+                { text: 'ZPT', datafield: 'zpt', width: 40, filterable: true, align: 'center',cellsalign: 'center'  },
+
+                {
+                    text: 'Lote Máx.',
+                    datafield: 'blister',
+
+                    width: 70, align: 'center',
+                    cellsalign: 'center',
+                    cellsformat: 'n0'
+
+                },
+                {
+                    text: 'Lote Standard',
+                    datafield: 'Lote',
+                    width: 100, align: 'center',
+                    cellsalign: 'center',
+                    cellsformat: 'n0'
+
+                },
+
+                {
+                    text: 'SEM',
+                    datafield: 'sem',
+                    cellsalign: 'center',
+                    width: 40, align: 'center',
+                    cellsalign: 'center',
+                    cellsformat: 'n0'
+
+                },
+                {
+                    text: 'P.E.',
+                    datafield: 'PeriodoEficacia',
+                    width: 50, align: 'center',
+                    cellsalign: 'center'
+                },
+
+
+                {
+                    text: 'E.P.',
+                    datafield: 'TipoProduccion',
+
+                    width: 50, align: 'center',
+                },
+
+
+            ];
+
+            // Generar columnas dinámicas para tres años basados en el año inicial seleccionado
+            for (let i = 0; i < 36; i++) {
+
+                // Obtener fecha actual y restar 4 meses
+                const fechaActual = new Date();
+                fechaActual.setMonth(fechaActual.getMonth() - 3);
+                const fechaInicial = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
+
+
+                const año = añoInicial + Math.floor(i / 12);
+                const mes = meses[i % 12];
+                const datafieldBase = `${mes}${18 + Math.floor(i / 12)}`; // datafield estático basado en 18, 19, 20
+
+                columnas.push({
+                    text: `${mes}-${String(año).slice(-2)}`, // encabezado dinámico basado en año inicial
+                    datafield: datafieldBase, // datafield constante
+                    width: 73,
+                    cellsalign: "right",
+                    align: "center",
+                    cellsformat: 'n0', cellsrenderer: cellsrenderer
+
+
+                });
+
+            }
+
+            return columnas;
+        }
+        function loadData() {
+              
+                const startYear = $("#yearSelector").val();
+                const tableName = $("#selmaterialprima").val();
+
+                $("#loadingIndicator").show();
+
+                $.ajax({
+                    url: '@Url.Action("GetReportDatanv", "Report")',
+                    type: 'GET',
+                    data: {
+                        startYear: startYear,
+                        tableName: tableName
+                    },
+                    success: function(response) {
+                        $("#loadingIndicator").hide();
+
+                        if (response.success) {
+                             
+                            initializeGrid(response);
+
+
+                        } else {
+                            alert(response.message || "Error al cargar los datos");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $("#loadingIndicator").hide();
+                        alert("Error al cargar los datos: " + error);
+                    }
+                });
+            }
+
+
+
+
+
+
+
+        function initializeGrid(data) {
+
+                let añoInicial = parseInt($("#yearSelector").val());
+                let columnas = generarColumnas(añoInicial);
+                generarBotones(añoInicial);
+
+                const source = {
+                    datatype: "json",
+                    datafields: datafields,
+                    localdata: data
+                };
+
+                const dataAdapter = new $.jqx.dataAdapter(source);
+
+
+            if ($("#jqxgrid").data('jqxGrid')) {
+                        
+
+                $("#jqxgrid").jqxGrid({ source: dataAdapter });
+
+            
+                $("#jqxgrid").jqxGrid('updatebounddata');
+            } else {
+                grid = $("#jqxgrid").jqxGrid({
+                    //  selectionmode: 'singlerow',
+                    scrollmode: 'deferred',
+
+                    //pageable: true,
+                    //pagesize:3000,
+                    // Disable autoheight to allow scrolling
+                    /*    virtualmode: true, // Virtual Scrolling
+                        rendergridrows: function () {
+                            return dataAdapter.records; // Render rows
+                        },*/
+                    // Tamaño de la barra de scroll
+                    //pageable: false,
+                    deferreddatafields: ['MateriaPrima', 'DescMateriaPrima', 'Codigo', 'NomTerm'],
+
+                    source: dataAdapter,
+                    theme: 'web',
+
+                    //showstatusbar: false,
+                    /*           statusbarheight: 37,*/
+
+                    showfilterrow: true,
+                    autoshowfiltericon: true,
+                    filterable: true,
+                    width: "100%",
+                    height: "650",
+                    columnsresize: true,
+                    sortable: false,
+
+
+                    //  showaggregates: true,
+                    //     showstatusbar: true,
+
+                    columns: columnas,
+                    ready: function () {
+                        $("#jqxgrid .jqx-button").css({ "font-size": "11px", "height": "20px", "margin-top": "25px" });
+
+
+                        $("#jqxgrid").jqxGrid('localizestrings', localizationobj);
+
+                        $("#jqxgrid .jqx-widget-content").css("font-size", "11px");
+
+
+
+                    },
+                });
+        
+            }
+ 
+
+
+
+            }
+     
+        function cargarMateriasPrimas() {
+            $.ajax({
+                url: '/MateriaPrima/GetMateriasPrimas',  // Ajusta la ruta según tu controlador
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        var select = $('#selmaterialprima');
+                        select.empty(); // Limpia el select
+
+                        // Agrega la opción "Todas"
+                        select.append($('<option>', {
+                            value: '0',
+                            text: 'Todas'
+                        }));
+
+                        // Agrega las materias primas
+                        $.each(response.data, function (i, item) {
+                            select.append($('<option>', {
+                                value: item.Matnr,
+                                text: item.Maktx
+                            }));
+                        });
+                    } else {
+                        console.error('Error:', response.message);
+                        alert('Error al cargar materias primas: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error Ajax:', error);
+                    alert('Error al cargar materias primas');
+                }
+            });
+        }
+
+        // Llamar a la función cuando el documento esté listo
+
+
+
+        function actualizarVisibilidadColumnas(agno) {
+
+            const columnas = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            let procesadas = 0;
+
+            Swal.fire({
+                title: 'Procesando columnas',
+                html: `Progreso: 0/${columnas.length}`,
+                didOpen: () => {
+                    Swal.showLoading();
+
+                    columnas.forEach((mes, index) => {
+                        setTimeout(() => {
+                            const columna = `${mes}${agno}`;
+                            const columnaVisible = $("#jqxgrid").jqxGrid('iscolumnvisible', columna);
+
+                            if (columnaVisible) {
+                                $("#jqxgrid").jqxGrid('hidecolumn', columna);
+                            } else {
+                                $("#jqxgrid").jqxGrid('showcolumn', columna);
+                            }
+
+                            procesadas++;
+                            Swal.getHtmlContainer().innerHTML =
+                                `Progreso ocultar y/o mostrar columnas : ${procesadas}/${columnas.length}`;
+
+                            if (procesadas === columnas.length) {
+                                setTimeout(() => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Completado',
+                                        timer: 1000,
+                                        showConfirmButton: false
+                                    });
+                                }, 200);
+                            }
+                        }, index  );
+                    });
+                }
+            });
+
+        }
+
+
+        function actualizarVisibilidadColumnas2(agnopar) {
+            Swal.fire({
+                title: "procesoa",
+                html: '<div class="custom-loader".....></div>',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                backdrop: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    $("#loadingIndicatorx").show();
+                }
+            });
+
+                 const columnas = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                 const agno = agnopar; // Ejemplo de año
+
+
+
+
+                    columnas.forEach(mes => {
+                        const columna = `${mes}${agno}`;
+                        const columnaVisible = $("#jqxgrid").jqxGrid('iscolumnvisible', columna);
+
+                        if (columnaVisible) {
+                            $("#jqxgrid").jqxGrid('hidecolumn', columna);
+                        } else {
+                            $("#jqxgrid").jqxGrid('showcolumn', columna);
+                        }
+                    });
+            Swal.close();
+            //const columnas = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+            //columnas.forEach(mes => {
+            //    const columna = `${mes}${agno}`;
+            //    const columnaVisible = $("#jqxgrid").jqxGrid('iscolumnvisible', columna);
+
+
+
+            //        if (columnaVisible) {
+            //            $("#jqxgrid").jqxGrid('hidecolumn', columna);
+            //        } else {
+            //            $("#jqxgrid").jqxGrid('showcolumn', columna);
+            //        }
+
+
+            //});
+
+
+            $("#loadingIndicatorx").hide();
+        }
+        function actualizarVisibilidadColumnasRX() {
+
+
+
+
+
+            const columnas = ['blister', 'PeriodoEficacia', 'Lote', 'sem', 'TipoProduccion',  'descpais', 'zpt' ];
+            let procesadas = 0;
+
+            Swal.fire({
+                title: 'Procesando columnas',
+                html: `Progreso: 0/${columnas.length}`,
+                didOpen: () => {
+                    Swal.showLoading();
+
+                    columnas.forEach((columna, index) => {
+
+                        setTimeout(() => {
+                            // Check if the column exists and is visible, then hide it
+                            const columnaVisible = $("#jqxgrid").jqxGrid('iscolumnvisible', columna);
+
+                            if (columnaVisible) {
+                                $("#jqxgrid").jqxGrid('hidecolumn', columna);
+                            } else {
+                                $("#jqxgrid").jqxGrid('showcolumn', columna);
+                            }
+                            // Update progress
+                            procesadas++;
+                            Swal.getHtmlContainer().innerHTML =
+                                `Progreso ocultar columnas: ${procesadas}/${columnas.length} / ${columna}`;
+
+
+                            if (procesadas === columnas.length  ) {
+                                setTimeout(() => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Completado',
+                                        timer: 600,
+                                        showConfirmButton: false
+                                    });
+                                }, 100);
+                            }
+                        }, index  ); // Spread execution over time to prevent blocking UI
+                    });
+                }
+            });
+
+        }
+        function generarBotones(año) {
+            const container = document.getElementById('botones-container');
+            container.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos botones
+            const agnoValue = 18
+            for (let i = 0; i < 3; i++) {
+                const boton = document.createElement('button');
+                const idName = `btnagno${i + 1}`;
+
+                boton.id = idName;
+                boton.setAttribute('agno', agnoValue);
+                boton.name = idName;
+                boton.className = 'btn btn-primary';
+                boton.style.marginTop = '25px';
+                boton.value = `Año ${año + i}`;
+                boton.textContent = `Año ${año + i}`;
+                container.appendChild(boton);
+                boton.onclick =   function () {
+                      actualizarVisibilidadColumnas(agnoValue + i);
+                };
+            }
+        }
+        function showCornerProcessing(message = 'Procesando...') {
+            return Swal.fire({
+                title: message,
+                toast: true,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+                ...swalPositions[position]
+            });
+        }
+
+        // Función para mostrar mensaje en la parte superior como banner
+        function showTopBannerProcessing(message = 'Procesando...') {
+            return Swal.fire({
+
+
+
+                title: 'Procesando.......',
+                toast: true,
+
+                timer: 500,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+                ...swalPositions[position]
+
+
+            });
+        }
+
+        function updateCellStyle() {
+            var datarows = $('#jqxgrid').jqxGrid('getrows');
+         
+            datarows.forEach(function (row, index) {
+                // 2018
+                if (row.cEne18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Ene18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cFeb18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Feb18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cMar18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Mar18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cAbr18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Abr18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cMay18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'May18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cJun18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Jun18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cJul18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Jul18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cAgo18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Ago18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cSep18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Sep18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cOct18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Oct18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cNov18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Nov18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cDic18 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Dic18', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                // 2019
+                if (row.cEne19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Ene19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cFeb19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Feb19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cMar19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Mar19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cAbr19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Abr19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cMay19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'May19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cJun19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Jun19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cJul19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Jul19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cAgo19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Ago19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cSep19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Sep19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cOct19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Oct19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cNov19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Nov19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cDic19 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Dic19', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                // 2020
+                if (row.cEne20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Ene20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cFeb20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Feb20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cMar20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Mar20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cAbr20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Abr20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cMay20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'May20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cJun20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Jun20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cJul20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Jul20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cAgo20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Ago20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cSep20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Sep20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cOct20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Oct20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cNov20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Nov20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+                if (row.cDic20 > 0) {
+                    $('#jqxgrid').jqxGrid('setcellstyle', index, 'Dic20', 'font-weight: bold; background-color: #f0f0f0;');
+                }
+            });
+        }
+    </script>
+}

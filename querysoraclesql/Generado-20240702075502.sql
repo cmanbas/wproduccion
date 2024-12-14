@@ -1,0 +1,19 @@
+--------------------------------------------------------
+-- Archivo creado  - martes-julio-02-2024   
+--------------------------------------------------------
+@C:\Users\cmand\T_CENTROCOSTOPADRE.sql
+@C:\Users\cmand\T_EMPLEADO.sql
+@C:\Users\cmand\T_EMPLEADORENTA.sql
+@C:\Users\cmand\T_GERENCIA.sql
+--@C:\Users\cmand\T_CENTROCOSTOPADRE_DATA_TABLE.xlsx
+--@C:\Users\cmand\T_EMPLEADO_DATA_TABLE.xlsx
+--@C:\Users\cmand\T_EMPLEADORENTA_DATA_TABLE.xlsx
+--@C:\Users\cmand\T_GERENCIA_DATA_TABLE.xlsx
+@C:\Users\cmand\PK_T_CCOPADRE_CENTROCOSTOPADRE.sql
+@C:\Users\cmand\PK_T_EMPLEADO_RUT.sql
+@C:\Users\cmand\PK_T_EMPLEADORENTA_RUTPERVERS.sql
+@C:\Users\cmand\PK_T_GERENCIA_CODINTERNO.sql
+@C:\Users\cmand\T_CENTROCOSTOPADRE_CONSTRAINT.sql
+@C:\Users\cmand\T_EMPLEADO_CONSTRAINT.sql
+@C:\Users\cmand\T_EMPLEADORENTA_CONSTRAINT.sql
+@C:\Users\cmand\T_GERENCIA_CONSTRAINT.sql

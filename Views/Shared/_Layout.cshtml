@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Bagó AC</title>
+    <link rel="stylesheet" href="~/Css/jqx.base.css" type="text/css" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="navbar navbar-light" role="navigation" style="margin:10px 0 0 0;">
+        <div class="container-fluid">
+            <div class="navbar-header navbar-light" style="background-color:white;">
+                <img src="~/Images/LOGOEMPRESA.png" class="logo" style="margin:00px  10px 0 20px;" />
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" style="background-color:white;">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="button_confirmar dropdown-toggle" style="border:none;" data-toggle="dropdown">MANTENEDORES <span class="caret"></span> </a>
+                        <ul class="dropdown-menu multi-level">
+                            <li>@Html.ActionLink("USUARIOS", "vusuarios", "Usuario", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("MAESTRO SAP", "vperiodoseficacia", "periodoeficacia", new { id = 51970 }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("PERIODO EFICACIA", "vperiodoseficacia", "periodoeficacia", new { id = 51970 }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("TAMAÑO LOTE", "vdescuentos", "descuentoVolex", new { id = 51970 }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("BLISTER", "vdescuentos", "descuentoVolex", new { id = 51970 }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("TIPO PRODUCCIÓN", "vTipoProduccion", "TipoProduccion", new { id = 51970 }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("MATERIA PRIMA", "vdescuentos", "descuentoVolex", new { id = 51970 }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("PRIORIDAD", "vdescuentos", "descuentoVolex", new { id = 51970 }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("ventas", "vventasdata", "ventas", new { id = 51970 }, new { @class = "button-linkurl2" })</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="button_confirmar dropdown-toggle" style="border:none;" data-toggle="dropdown">Documentos <span class="caret"></span> </a>
+                        <ul class="dropdown-menu multi-level">
+                            <li>@Html.ActionLink("VISTA DATOS", "vproductiondata", "wproduccion", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("VISTA DATOS v 2", "VProductionDatav2", "wproduccion", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("Consulta Documentos", "vconsultaDocumento", "Documento", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("carga datos planilla", "vPlanilla", "Planilla", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("cargassss", "Index", "Product", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("report", "Index", "report", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="button_confirmar dropdown-toggle" style="border:none;" data-toggle="dropdown">@Session["usrnombre"]<span class="caret"></span> </a>
+                        <ul class="dropdown-menu multi-level" style="width: 100%; background: linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%); background-color: #ededed;">
+                            <li>@Html.ActionLink("Cambiar Password", "vcambioclave", "usuario", new { id = 65000 }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("Logout", "Logout", "usuario", new { id = 65000 }, new { @class = "button-linkurl2" })</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content" style="background: transparent; width:95%; height: 100%; top:50px ">
+        @RenderBody()
+        <hr />
+    </div>
+
+    <footer class="main-footer" style="background: transparent; color: black; position: fixed; bottom: 0; width: 95%; text-align: right;">
+        @*<input type="text" style="font-size:12px;" disabled name="nombrecompletoF" id="nombrecompletoF" value="@Session["nombrecompleto"]">*@
+        @*<img src="~/Images/LOGOEMPRESA.png" class="logo;" style="width: 100px;" />*@
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
