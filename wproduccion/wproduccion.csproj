@@ -17,7 +17,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress />
+    <Use64BitIISExpress>true</Use64BitIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -135,17 +135,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AgnoMesUbicacionController.cs" />
-    <Compile Include="Controllers\CargaDatosPlanillaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MateriaPrimaController.cs" />
     <Compile Include="Controllers\PeriodoEficaciaController.cs" />
-    <Compile Include="Controllers\PlanillaController.cs" />
-    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\TipoProduccionController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
-    <Compile Include="Controllers\VentasController.cs" />
-    <Compile Include="Controllers\WProduccionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1445,13 +1440,6 @@
     <Content Include="Views\Usuario\vlogin.cshtml" />
     <Content Include="Views\PeriodoEficacia\vperiodoseficacia.cshtml" />
     <Content Include="Views\TipoProduccion\vTipoProduccion.cshtml" />
-    <Content Include="Views\WProduccion\VProductionData.cshtml" />
-    <Content Include="Views\WProduccion\vvv.html" />
-    <Content Include="Views\Ventas\vVentasData.cshtml" />
-    <Content Include="Views\CargaDatosPlanilla\vCargaDatosPlanilla.cshtml" />
-    <Content Include="Views\Planilla\vPlanilla.cshtml" />
-    <Content Include="Views\WProduccion\VProductionDatav2.cshtml" />
-    <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Shared\_Layout - Copia.cshtml" />
   </ItemGroup>
@@ -1501,6 +1489,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

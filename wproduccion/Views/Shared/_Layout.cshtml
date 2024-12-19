@@ -21,7 +21,7 @@
     @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>*@
 
 
-    @RenderSection("Styles", required: false)
+  @*  @RenderSection("Styles", required: false)*@
 </head>
 <body>
     <div class="navbar navbar-light" role="navigation" style="margin:10px 0 0 0;">
@@ -52,11 +52,29 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="button_confirmar dropdown-toggle" style="border:none;" data-toggle="dropdown">Producción<span class="caret"></span> </a>
+                        <a href="#" class="button_confirmar dropdown-toggle" style="border:none;" data-toggle="dropdown">Producción (1)<span class="caret"></span> </a>
                         <ul class="dropdown-menu multi-level">
-                 
-     
-                            <li>@Html.ActionLink("Datos Mensuales", "Index", "report", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("ABBOTT", "vabbott", "cabbott", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("COMP (FN)", "Index", "report", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("COMP (IMP)", "vcomp", "ccomp (in)", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("CREMAS", "vcremas", "ccremas", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("DIFEXON", "vdifexon", "cdifexon", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("HELIOCARE", "vheliocare", "cheliocare", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("LETIA", "vletia", "cletia", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("LIQUIDOS", "vliquidos", "cliquidos", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("MAN", "vman", "cman", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("POLVOS", "vpolvos", "cpolvos", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="button_confirmar dropdown-toggle" style="border:none;" data-toggle="dropdown">Producción(2)<span class="caret"></span> </a>
+                        <ul class="dropdown-menu multi-level">
+                      
+                            <li>@Html.ActionLink("LIQUIDOS", "vliquidos", "cliquidos", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("MAN", "vman", "cman", new { conex = "" }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("POLVOS", "vpolvos", "cpolvos", new { conex = "" }, new { @class = "button-linkurl2" })</li>
                         </ul>
                     </li>
                 </ul>
@@ -66,7 +84,7 @@
                         <a href="#" class="button_confirmar dropdown-toggle" style="border:none;" data-toggle="dropdown">@Session["usrnombre"]<span class="caret"></span> </a>
                         <ul class="dropdown-menu multi-level" style="width: 100%; background: linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%); background-color: #ededed;">
                             <li>@Html.ActionLink("Cambiar Password", "vcambioclave", "usuario", new { id = 65000 }, new { @class = "button-linkurl2" })</li>
-                            <li>@Html.ActionLink("Logout", "Logout", "usuario", new { id = 65000 }, new { @class = "button-linkurl2" })</li>
+                            <li>@Html.ActionLink("Logout", "vLogout", "usuario", new { id = 65000 }, new { @class = "button-linkurl2" })</li>
                         </ul>
                     </li>
                 </ul>

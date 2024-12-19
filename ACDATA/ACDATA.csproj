@@ -48,8 +48,6 @@
     <Compile Include="MonthlyReportModel.cs" />
     <Compile Include="ParametrosActualizacionDTO.cs" />
     <Compile Include="PeriodoEficaciaDTO.cs" />
-    <Compile Include="PlanillaDTO.cs" />
-    <Compile Include="Product.cs" />
     <Compile Include="ProductionDataDTO.cs" />
     <Compile Include="ProductoTipoDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

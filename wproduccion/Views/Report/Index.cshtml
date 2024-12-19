@@ -69,8 +69,9 @@
 
         </div>
     </div>
+    <div id="jqxgrid" style="font-size:12px; font-family: Calibri;"></div>
 </div>
-<div id="jqxgrid" style="font-size:12px; font-family: Calibri;"></div>
+
 <div id="detailsWindow" style="text-align: center ;" hidden>
     <div>Editar Registro</div>
     <div>
@@ -145,12 +146,45 @@
         </form>
     </div>
 </div>
+
+
+<link href="~/Css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+
+
+
+
+<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/Scripts/Cierres.js"></script>
+
+
+<link href="~/Css/TablasComercial.css" rel="stylesheet" />
+<link href="~/Css/datatablebuttons.css" rel="stylesheet" />
 <style>
     /* Estilos optimizados */
-    .select2-container {
+    .dropdown-menu {
         z-index: 9999 !important;
+        position: absolute !important;
+        
+        
+    } 
+/*    .dropdown-menu {
+        position: fixed !important;;  O absolute, según tu diseño 
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9999;  Un valor alto para que esté siempre encima 
+        background-color: #fff;  Fondo blanco o según tu diseño 
     }
-        input [type=text], input[type=number], select {
+ */
+
+    input [type=text], input[type=number], select {
         font-size: 13px;
         padding: 5px 10px;
         width: 80%;
@@ -179,26 +213,22 @@
         font-family: Calibri !important;
         border: 0.2px solid purple !important;
     }
+
+    .select2-container {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .select2-results__option {
+        line-height: 1.5; /* Ajusta la altura de las líneas */
+        padding: 2px 5px; /* Ajusta el relleno de las opciones */
+    }
+    .select2-container {
+        z-index: 1150 !important;
+    }
+
+    
 </style>
-
-<link href="~/Css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
-
-
-
-
-<script type="text/javascript" src="~/Scripts/jszip.min.js"></script>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<script src="~/Scripts/Cierres.js"></script>
-
-
-<link href="~/Css/TablasComercial.css" rel="stylesheet" />
-<link href="~/Css/datatablebuttons.css" rel="stylesheet" />
 @section Scripts
 {
     <link href="~/Css/jqx.base.css" rel="stylesheet" />
